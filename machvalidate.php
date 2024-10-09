@@ -2,11 +2,18 @@
 session_start();
 include 'config.php';
 require 'calculate_estimated_price.php';
-
+    
 // Check if the mechanic is logged in
-if (!isset($_SESSION['mechanic_id'])) {
-    header('location:login.php');
+if (!isset($_SESSION['companyid'])) {
+    header('Location: index.php');
     exit();
+}
+
+// Retrieve mechanic_id from session or URL
+if (isset($_GET['mechanic_id'])) {
+    $_SESSION['mechanic_id'] = intval($_GET['mechanic_id']);
+} elseif (!isset($_SESSION['mechanic_id'])) {
+    die('Mechanic ID not specified.'); // Ensure mechanic_id is available
 }
 
 // Retrieve user_id and car_id
@@ -174,8 +181,8 @@ function displayProblemParts($problem_parts_mapping, $user_id, $car_id)
     echo '<form method="post" action="save_checkbox.php">'; 
     echo '<input type="hidden" name="user_id" value="' . $user_id . '">';
     echo '<input type="hidden" name="car_id" value="' . $car_id . '">';
+    echo '<input type="hidden" name="mechanic_id" value="' . $_SESSION['mechanic_id'] . '">';
 
-  
     // Display checkboxes for problem parts
     foreach ($problem_parts_mapping as $problem => $parts) {
         echo '<div id="' . str_replace(' ', '_', $problem) . '" class="for-major-container bg-gray-100 p-4 rounded-md shadow-md mb-4" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">';
@@ -215,12 +222,13 @@ function displayProblemParts($problem_parts_mapping, $user_id, $car_id)
     echo '</div>';
 
 
-    // Display the form submit button
+       // Display the form submit button
     echo '<div class="mt-4">';
     echo '<button type="submit" name="submit" value="Submit" class="btn btn-primary">Valid</button>';
     echo '<a href="homemechanic.php" class="btn btn-danger">Invalid</a>';
     echo '</div>';
     echo '</form>'; 
+
 
     echo '<script>';
     echo 'document.addEventListener("DOMContentLoaded", function() {';

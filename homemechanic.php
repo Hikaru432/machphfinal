@@ -2,22 +2,33 @@
 include 'config.php';
 session_start();
 
-$companyid = $_SESSION['companyid'];
-$mechanic = $_SESSION['mechanic_id'];
-
 // Check if the user is logged in
 if (!isset($_SESSION['companyid']) || empty($_SESSION['companyid'])) {
-    header('Location: login.php'); // Redirect to login page if not logged in
+    header('Location: homemechanic.php'); // Redirect to login page if not logged in
     exit();
 }
 
-// Retrieve mechanic details from the database based on the companyid
-$companyid = $_SESSION['companyid'];
-$query = "SELECT * FROM mechanic WHERE companyid = $companyid";
-$result = mysqli_query($conn, $query);
-$mechanic = mysqli_fetch_assoc($result);
+// Get mechanic_id from URL
+if (!isset($_GET['mechanic_id']) || empty($_GET['mechanic_id'])) {
+    echo "<script>alert('Back to Dashboard!'); window.location.href='homemechanic.php';</script>";
+    exit();
+}
+
+$mechanic_id = intval($_GET['mechanic_id']); 
+$_SESSION['mechanic_id'] = $mechanic_id;
+
+// Retrieve mechanic details from the database based on the mechanic_id
+$query_mechanic = "SELECT * FROM mechanic WHERE mechanic_id = $mechanic_id";
+$result_mechanic = mysqli_query($conn, $query_mechanic);
+$mechanic = mysqli_fetch_assoc($result_mechanic);
+
+if (!$mechanic) {
+    echo "<script>alert('Mechanic not found!'); window.location.href='admin.php';</script>";
+    exit();
+}
 
 // Retrieve autoshop details from the database based on the companyid
+$companyid = $_SESSION['companyid'];
 $query_company = "SELECT * FROM autoshop WHERE companyid = $companyid";
 $result_company = mysqli_query($conn, $query_company);
 $autoshop = mysqli_fetch_assoc($result_company);
@@ -46,7 +57,7 @@ $autoshop = mysqli_fetch_assoc($result_company);
                     <a class="nav-link active text-white" aria-current="page" href="admin.php?companyid=<?php echo $companyid; ?>">Home</a>
                 </li>
                 <li class="nav-item"> 
-                    <a class="nav-link text-white active" aria-current="page" href="repair_table_content.php?mechanic_id=<?php echo $mechanic['mechanic_id']; ?>">Job</a> 
+                    <a class="nav-link text-white active" aria-current="page" href="repair_table_content.php?mechanic_id=<?php echo $mechanic_id; ?>">Job</a> 
                 </li>
 
                 <li class="nav-item">
@@ -57,7 +68,8 @@ $autoshop = mysqli_fetch_assoc($result_company);
         </div>
     </div>
 </nav>
-<h1>Welcome <?php echo $mechanic['firstname']; ?></h1> <!-- Changed $user['name'] to $mechanic['firstname'] -->
+<h1>Welcome <?php echo $mechanic['firstname']; ?></h1>
+
 <div id="table-content-placeholder">
     <!-- Table content will be loaded here -->
 </div>
@@ -67,7 +79,7 @@ $autoshop = mysqli_fetch_assoc($result_company);
 <script>
     $(document).ready(function() {
     function loadTableContent() {
-        $.get('table_content.php', function(data) {
+        $.get('table_content.php', { mechanic_id: <?php echo $mechanic_id; ?> }, function(data) {
             $('#table-content-placeholder').html(data);
         }).fail(function() {
             console.log('Failed to load table content');
@@ -77,7 +89,7 @@ $autoshop = mysqli_fetch_assoc($result_company);
     loadTableContent();
 
     function reloadTable() {
-        $.get('table_content.php', function(data) {
+        $.get('table_content.php', { mechanic_id: <?php echo $mechanic_id; ?> }, function(data) {
             var oldRowCount = $('#carTable tbody tr').length;
             $('#table-content-placeholder').html(data);
             var newRowCount = $('#carTable tbody tr').length;

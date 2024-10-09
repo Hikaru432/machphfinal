@@ -11,11 +11,12 @@ if (!$companyid) {
 }
 
 // Fetch data from the user, car, and approvals tables only if companyid is set
-$query = "SELECT user.id as user_id, user.name, car.carmodel, car.plateno, car.car_id, car.color, manufacturer.name AS manuname, approvals.status, approvals.reason
+$query = "SELECT user.id as user_id, user.name, car.carmodel, car.plateno, car.car_id, car.color, manufacturer.name AS manuname, approvals.status, approvals.reason, autoshop.companyname
           FROM user
           JOIN car ON user.id = car.user_id
           LEFT JOIN manufacturer ON car.manufacturer_id = manufacturer.id
           LEFT JOIN approvals ON user.id = approvals.user_id AND car.car_id = approvals.car_id
+          JOIN autoshop ON autoshop.companyid = car.companyid
           WHERE EXISTS (
               SELECT 1 FROM service
               WHERE service.user_id = user.id AND service.companyid = '$companyid'
@@ -67,7 +68,6 @@ if (!$result) {
                         <select name="mechanic_id" class="mechanic-select">
                             <option value="">Select mechanic</option>
                             <?php
-                            // Fetch available mechanics from the mechanic table with their corresponding names from the user table, filtered by company ID
                             $mechanic_query = "SELECT mechanic_id, CONCAT(firstname) AS name, jobrole
                                                FROM mechanic 
                                                WHERE companyid = '$companyid'";
@@ -120,6 +120,65 @@ if (!$result) {
 </div>
 
 <br>
+
+<!-- New section for viewing bookings based on companyname -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Bookings</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Car Model</th>
+                <th>Booking Date</th>
+                <th>Company Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Function to determine background color based on booking date
+            function getDateColor($bookingDate) {
+                $currentDate = date('Y-m-d');
+                $dateDifference = (strtotime($currentDate) - strtotime($bookingDate)) / (60 * 60 * 24);
+
+                if ($dateDifference == 0) {
+                    return 'style="background-color: green; color: white;"'; // Current date
+                } elseif ($dateDifference <= 2) {
+                    return 'style="background-color: yellow; color: black;"'; // 1-2 days ago
+                } elseif ($dateDifference <= 6) {
+                    return ''; // Normal color for more than 2 days ago
+                } else {
+                    return ''; // Normal color for more than 6 days ago
+                }
+            }
+
+            // Query to fetch bookings along with user and car details
+            $booking_query = "SELECT b.id, u.name AS user_name, c.carmodel, b.date, a.companyname, 
+                                (SELECT CONCAT(m.firstname) FROM mechanic AS m WHERE m.companyid = a.companyid LIMIT 1) AS mechanic_name
+                            FROM bookings AS b
+                            JOIN user AS u ON b.user_id = u.id
+                            JOIN car AS c ON b.car_id = c.car_id
+                            JOIN autoshop AS a ON a.companyid = c.companyid
+                            WHERE a.companyid = '$companyid'";
+            $booking_result = mysqli_query($conn, $booking_query);
+
+            if ($booking_result && mysqli_num_rows($booking_result) > 0) {
+                while ($booking_row = mysqli_fetch_assoc($booking_result)) {
+                    $dateColor = getDateColor($booking_row['date']); // Get color for the booking date
+                    echo "<tr>
+                            <td>{$booking_row['user_name']}</td>
+                            <td>{$booking_row['carmodel']}</td>
+                            <td $dateColor>{$booking_row['date']}</td>
+                            <td>{$booking_row['companyname']}</td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>No bookings found.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
 <br>
 
 <div class="container mt-5">
@@ -188,3 +247,9 @@ if (!$result) {
         ?>
     </div>
 </div>
+
+<br>
+<br>
+
+
+

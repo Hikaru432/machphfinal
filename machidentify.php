@@ -2,8 +2,8 @@
 session_start();
 
 // Redirect to login.php if the user is not logged in
-if (!isset($_SESSION['mechanic_id'])) {
-    header('location: login.php');
+if (!isset($_SESSION['companyid'])) {
+    header('Location: login.php');
     exit();
 }
 
@@ -11,8 +11,8 @@ include 'config.php';
 
 // Retrieve mechanic_id and car_id parameters from the URL
 if (isset($_GET['mechanic_id']) && isset($_GET['car_id'])) {
-    $mechanic_id = $_GET['mechanic_id'];
-    $car_id = $_GET['car_id'];
+    $mechanic_id = intval($_GET['mechanic_id']); // Ensure it's an integer
+    $car_id = intval($_GET['car_id']); // Ensure it's an integer
 
     // Fetch mechanic data based on mechanic_id
     $mechanic_select = mysqli_query($conn, "SELECT * FROM mechanic WHERE mechanic_id = '$mechanic_id'");
@@ -30,9 +30,6 @@ if (isset($_GET['mechanic_id']) && isset($_GET['car_id'])) {
     $user_id = $car_data['user_id'];
     $user_select = mysqli_query($conn, "SELECT * FROM user WHERE id = '$user_id'");
     $user_data = ($user_select) ? mysqli_fetch_assoc($user_select) : die('Error fetching user data: ' . mysqli_error($conn));
-
-
-    
 
     function mapMaintenanceStatus($status) {
         switch ($status) {
@@ -63,6 +60,7 @@ if (isset($_GET['mechanic_id']) && isset($_GET['car_id'])) {
 } else {
     die('Mechanic ID and Car ID not specified.');
 }
+
 ?>
  
 <!DOCTYPE html>

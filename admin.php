@@ -1,38 +1,12 @@
 <?php
 session_start();
-include 'config.php'; 
+include 'config.php';
 
-$companyid = $_SESSION['companyid'];
-
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstname = $_POST['firstname']; // Get the entered first name
-    
-    // Query to check if the mechanic with entered first name and same company ID exists
-    $query = "SELECT * FROM mechanic WHERE firstname = '$firstname' AND companyid = '$companyid'";
-    $result = mysqli_query($conn, $query);
-    
-    // If a mechanic is found, set the session variables and redirect
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_assoc($result);
-        $_SESSION['mechanic_id'] = $row['mechanic_id']; // Set session variable to mechanic_id
-        $_SESSION['companyid'] = $row['companyid'];
-        header('Location: homemechanic.php');
-        exit();
-    } else {
-        // If no mechanic found or not in the same company, display an alert
-        echo "<script>alert('Mechanic not found or does not belong to the same company!');</script>";
-    }    
+if (!isset($_SESSION['companyid'])) {
+    header('location:index.php');
+    exit();
 }
 
-
-// If company id is not set in session, redirect to login page
-if (!isset($_SESSION['companyid'])) {
-    header('location:clogin.php');
-    exit();
-} 
-
-// Get company id from session
 $companyid = $_SESSION['companyid'];
 
 // Query to get company data
@@ -40,12 +14,16 @@ $query = "SELECT * FROM autoshop WHERE companyid = $companyid";
 $result = mysqli_query($conn, $query);
 
 // If company data found, fetch it
-if($result && mysqli_num_rows($result) > 0) {
+if ($result && mysqli_num_rows($result) > 0) {
     $company_data = mysqli_fetch_assoc($result);
 } else {
-    // Redirect to some error page if company data is not found
+    // Handle error if company data is not found
+    echo "<script>alert('Company data not found!');</script>";
 }
 
+// Fetch all mechanics for the company
+$mechanic_query = "SELECT * FROM mechanic WHERE companyid = '$companyid'";
+$mechanic_result = mysqli_query($conn, $mechanic_query);
 ?>
 
 <!DOCTYPE html>
@@ -88,30 +66,29 @@ if($result && mysqli_num_rows($result) > 0) {
     </div>
 </nav>
 
-<!-- Display error message if any -->
-<?php if(isset($error)): ?>
-    <div class="alert alert-danger"><?php echo $error; ?></div>
-<?php endif; ?>
-
-<!-- Mechanic login form -->
+<!-- Display mechanic list -->
 <div class="login-form-container" style="margin-top: 80px;">
-    <form method="post">
-        <div class="mb-3">
-            <label for="firstname" class="form-label">Mechanic First Name:</label>
-            <input type="text" class="form-control" id="firstname" name="firstname" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Mechanic Dashborad</button>
-    </form>
+    <h3>Select Mechanic</h3>
+    <ul class="list-group">
+        <?php
+        if ($mechanic_result && mysqli_num_rows($mechanic_result) > 0) {
+            while ($mechanic = mysqli_fetch_assoc($mechanic_result)) {
+                echo '<li class="list-group-item"><a href="homemechanic.php?mechanic_id=' . $mechanic['mechanic_id'] . '">' . $mechanic['firstname'] . ' ' . $mechanic['lastname'] . '</a></li>';
+            }
+        } else {
+            echo '<li class="list-group-item">No mechanics found.</li>';
+        }
+        ?>
+    </ul>
 </div>
 
 <h1>Welcome <?php echo isset($company_data['companyname']) ? $company_data['companyname'] : ''; ?></h1>
 
-    <div style="margin-top: 80px; margin-left: 80px;">
-        <a href="homemanager.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px; margin-right: 10px;">Service Executive</a>
-        <a href="add_staff.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px; margin-right: 10px;">Add Staff</a>
-        <a href="addproduct.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px;">Add Product</a>                    
-    </div>
-
+<div style="margin-top: 80px; margin-left: 80px;">
+    <a href="homemanager.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px; margin-right: 10px;">Service Executive</a>
+    <a href="add_staff.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px; margin-right: 10px;">Add Staff</a>
+    <a href="addproduct.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px;">Add Product</a>                    
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

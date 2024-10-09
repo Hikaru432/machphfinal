@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 // Redirect to login.php if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
     header('location:login.php');
@@ -114,6 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo '<script>window.location.href = "home.php";</script>';
     exit();
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -226,6 +229,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
+    
+
   
    <!-- Sectioning -->
    <section class="carprofile-section-1">
@@ -257,9 +262,148 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
 
+            <!-- For Booking container -->
+
+            <div style="position: relative; margin-left: 20px; margin-top: 50px;">
+                <div>
+                <!-- <h2 class="text-xl font-bold">Bookings</h2> -->
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Booking</a>
+
+                <!-- Booking Modal -->
+                
+                <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="bookingModalLabel">Book a Date</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Hidden input to hold the companyname for the booking -->
+                                <input type="hidden" id="companyname" value="<?php echo htmlspecialchars($companyname); ?>">
+
+                                <!-- Car selection dropdown -->
+                                <label for="carSelect">Select Your Car:</label>
+                                <select id="carSelect" class="form-select mb-3">
+                                    <option value="">-- Choose a Car --</option>
+                                    <?php
+                                    // Fetch cars for the logged-in user
+                                    $car_query = "SELECT * FROM car WHERE user_id = '$user_id'";
+                                    $car_result = mysqli_query($conn, $car_query);
+                                    while ($car = mysqli_fetch_assoc($car_result)) {
+                                        echo "<option value='{$car['car_id']}'>{$car['carmodel']} - {$car['plateno']}</option>";
+                                    }
+                                    ?>
+                                </select>
+
+                                <div id="calendar" style="display: none;"></div>
+
+                                <table class="table mt-3" id="bookingTable">
+                                    <thead>
+                                        <tr>
+                                            <th>User Name</th>
+                                            <th>Car Model</th>
+                                            <th>Date</th>
+                                            <th>Bookings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Booked dates will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+<!-- Include required JavaScript files -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+                <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+                <!-- For booking -->
+
+                <script>
+                $(document).ready(function() {
+                    // Initialize the calendar but keep it hidden
+                    $("#calendar").datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        onSelect: function(dateText) {
+                            // AJAX request to store the booking
+                            const selectedCarId = $('#carSelect').val();
+                            const companyid = $('#companyid').val(); // Fetch the companyid from the hidden input
+
+                            if (!selectedCarId) {
+                                alert("Please select a car first.");
+                                return;
+                            }
+
+                            $.ajax({
+                            url: 'book_date.php',
+                            method: 'POST',
+                            data: { 
+                                date: dateText, 
+                                user_id: <?php echo $user_id; ?>, 
+                                car_id: selectedCarId,
+                                companyname: '<?php echo $companyname; ?>' // Use companyname from the session
+                            },
+                            success: function(response) {
+                                alert(response);
+                                loadBookings(selectedCarId); // Pass car_id to loadBookings
+                            }
+                        });
+                        }
+                    });
+
+                    // Show/hide the calendar based on car selection
+                    $('#carSelect').change(function() {
+                        if ($(this).val()) {
+                            $("#calendar").show(); // Show the calendar when a car is selected
+                            loadBookings($(this).val()); // Load bookings for the selected car
+                        } else {
+                            $("#calendar").hide(); // Hide the calendar when no car is selected
+                            $('#bookingTable tbody').empty(); // Clear bookings when no car is selected
+                        }
+                    });
+
+                    // Fetch and display bookings for the selected car
+                    function loadBookings(carId) {
+                        $.ajax({
+                            url: 'fetch_bookings.php',
+                            method: 'GET',
+                            data: { 
+                                user_id: <?php echo $user_id; ?>, 
+                                car_id: carId 
+                            }, // Include car_id
+                            success: function(data) {
+                                $('#bookingTable tbody').html(data);
+                            }
+                        });
+                    }
+
+                    // Initial load of bookings (no car selected)
+                    $('#carSelect').trigger('change'); // Trigger change to load bookings for the initially selected car if any
+                });
+
+
+                </script>
+                
+                </div>
+            </div>
+
+        <div>
+
     </section>
 
-<div>
+
 
 <!-- For section 2 -->
 
@@ -325,7 +469,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             </div>
          </form>
-     </div>wha
+     </div>
+
+     
         
     </section>
   

@@ -9,8 +9,6 @@ if (!isset($_SESSION['companyid'])) {
 }
 
 $companyid = $_SESSION['companyid'];
-
-$companyid = $_SESSION['companyid'];
 ?>
 
 <!DOCTYPE html>

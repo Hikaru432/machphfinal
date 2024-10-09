@@ -67,7 +67,7 @@ if (isset($_POST['submit'])) {
             if ($insert) {
                 move_uploaded_file($image_tmp_name, $image_folder);
                 $message[] = 'Registered successfully!';
-                header('location:login.php');
+                header('location:index.php');
             } else {
                 $message[] = 'Registration failed!';
             }
@@ -99,7 +99,7 @@ if (isset($_POST['submit'])) {
          }
       }
       ?>
-      <div class="form-column form-column-1">
+      <div class="form-column form-column-1" style="margin-top:56px;">
             <input type="text" name="homeaddress" placeholder="Enter home address" class="box" required>
             <input type="text" name="barangay" placeholder="Enter barangay" class="box" required>
             <input type="text" name="municipality" placeholder="Enter city" class="box" required>
@@ -108,7 +108,7 @@ if (isset($_POST['submit'])) {
             <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
 
             
-            <input type="checkbox" name="isMechanic" id="isMechanic">
+            <!-- <input type="checkbox" name="isMechanic" id="isMechanic">
                 <label for="isMechanic">Register as Mechanic</label>
                 <div id="mechanicFields" style="display:none;">
                     <select name="employment" class="box">
@@ -131,9 +131,9 @@ if (isset($_POST['submit'])) {
                         <option value="Small engine mechanic">Small engine mechanic</option>
                         <option value="Tire mechanics">Tire mechanics</option>
                     </select>
-                </div>
+                </div> -->
          <br>
-         <input type="checkbox" name="isManager" id="isManager">
+         <!-- <input type="checkbox" name="isManager" id="isManager">
                   <label for="isManager">Register as Manager</label>
                   <div id="managerFields" style="display:none;">
                      <select name="managerRole" class="box" required>
@@ -141,7 +141,7 @@ if (isset($_POST['submit'])) {
                         <option value="auto_electrician">Auto Electrician</option>
                         <option value="auto_sales_manager">Auto Sales Manager</option>
                      </select>
-                  </div>
+                  </div> -->
          </div>
          
          <div class="form-column form-column-2">
@@ -153,7 +153,7 @@ if (isset($_POST['submit'])) {
             <input type="text" name="middlename" placeholder="Enter middle name" class="box" required>
             <input type="text" name="lastname" placeholder="Enter last name" class="box" required>
             <input type="submit" name="submit" value="register now" class="btn">
-            <p>already have an account? <a href="login.php">login now</a></p>
+            <p>already have an account? <a href="index.php">login now</a></p>
        </div>
    </form>
 </div>
