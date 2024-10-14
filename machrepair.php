@@ -164,7 +164,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                         </div>
                         <!-- Inline percentage display -->
                         <div class="pt-4">
-                            <span class="font-bold">Mechanical Issues Progress: </span>
+                            <span class="font-bold">Progress: </span>
                             <span id="mechanical_issues_percentage">0%</span>
                         </div>
                     </div>
@@ -192,7 +192,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                         </div>
                         <!-- Inline percentage display -->
                         <div class="pt-4">
-                            <span class="font-bold">Fuel and Air Intake System Progress: </span>
+                            <span class="font-bold">Progress: </span>
                             <span id="engine_low_power_percentage">0%</span>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                         </div>
                         <!-- Inline percentage display -->
                         <div class="pt-4">
-                            <span class="font-bold">Cooling and Lubrication Progress: </span>
+                            <span class="font-bold">Progress: </span>
                             <span id="electrical_problem_percentage">0%</span>
                         </div>
                     </div>
@@ -248,7 +248,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Battery Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="battery_progress_percentage">0%</span>
                 </div>
             </div>
@@ -269,7 +269,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Light Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="light_progress_percentage">0%</span>
                 </div>
             </div>
@@ -290,7 +290,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Oil Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="oil_progress_percentage">0%</span>
                 </div>
             </div>
@@ -312,7 +312,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Water Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="water_progress_percentage">0%</span>
                 </div>
             </div>
@@ -333,7 +333,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Brake Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="brake_progress_percentage">0%</span>
                 </div>
             </div>
@@ -354,7 +354,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Air Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="air_progress_percentage">0%</span>
                 </div>
             </div>
@@ -375,7 +375,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Gas Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="gas_progress_percentage">0%</span>
                 </div>
             </div>
@@ -396,7 +396,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
                 </div>
                 <!-- Inline percentage display -->
                 <div class="pt-4">
-                    <span class="font-bold">Tire Progress: </span>
+                    <span class="font-bold">Progress: </span>
                     <span id="tire_progress_percentage">0%</span>
                 </div>
             </div>
