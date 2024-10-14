@@ -140,87 +140,93 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
 
         <!-- Major  -->
         <div class="for-major-container bg-gray-100 p-4 rounded-md shadow-md">
-                <h2 class="text-2xl font-bold mb-4">Primary Engine System</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <?php if (!empty($engine_overhaul_data)) { ?>
-                      
-                            <div id="eo_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                                <label class="block">
-                                    <span class="font-bold">Mechanical Issues</span>
-                                </label>
-                                <div class="flex flex-col items-start pt-4 checkbox-group">
-                                    <?php if (is_array($engine_overhaul_data)) { ?>
-                                        <?php foreach ($engine_overhaul_data as $item) { ?>
-                                            <span class="ml-6 flex items-center">
-                                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="major-checkbox">
-                                                <span class="ml-4"><?php echo $item; ?></span>
-                                            </span>
-                                        <?php } ?>
-                                    <?php } else { ?>
-                                        <span class="ml-6 flex items-center">
-                                            <input type="checkbox" id="<?php echo str_replace(' ', '_', $engine_overhaul_data); ?>_checkbox" name="<?php echo str_replace(' ', '_', $engine_overhaul_data); ?>_checkbox" class="major-checkbox">
-                                            <span class="ml-4"><?php echo $engine_overhaul_data; ?></span>
-                                        </span>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                        
-                    <?php } ?>
+            <h2 class="text-2xl font-bold mb-4">Primary Engine System</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <?php if (!empty($engine_overhaul_data)) { ?>
+                    <div id="eo_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        <label class="block">
+                            <span class="font-bold">Mechanical Issues</span>
+                        </label>
+                        <div class="flex flex-col items-start pt-4 checkbox-group">
+                            <?php if (is_array($engine_overhaul_data)) { ?>
+                                <?php foreach ($engine_overhaul_data as $item) { ?>
+                                    <span class="ml-6 flex items-center">
+                                        <input type="checkbox" class="major-checkbox eo-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                                        <span class="ml-4"><?php echo $item; ?></span>
+                                    </span>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <span class="ml-6 flex items-center">
+                                    <input type="checkbox" class="major-checkbox eo-checkbox" id="<?php echo str_replace(' ', '_', $engine_overhaul_data); ?>_checkbox" name="<?php echo str_replace(' ', '_', $engine_overhaul_data); ?>_checkbox">
+                                    <span class="ml-4"><?php echo $engine_overhaul_data; ?></span>
+                                </span>
+                            <?php } ?>
+                        </div>
+                        <!-- Inline percentage display -->
+                        <div class="pt-4">
+                            <span class="font-bold">Mechanical Issues Progress: </span>
+                            <span id="mechanical_issues_percentage">0%</span>
+                        </div>
+                    </div>
+                <?php } ?>
 
-                    <!-- Continue for other major problems -->
-                    <?php if (!empty($engine_low_power_data)) { ?>
-        
-                            <div id="elp_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                                <label class="block">
-                                    <span class="font-bold">Fuel and Air intake System</span>
-                                </label>
-                                <div class="flex flex-col items-start pt-4 checkbox-group">
-                                    <?php if (is_array($engine_low_power_data)) { ?>
-                                        <?php foreach ($engine_low_power_data as $item) { ?>
-                                            <span class="ml-6 flex items-center">
-                                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="major-checkbox">
-                                                <span class="ml-4"><?php echo $item; ?></span>
-                                            </span>
-                                        <?php } ?>
-                                    <?php } else { ?>
-                                        <span class="ml-6 flex items-center">
-                                            <input type="checkbox" id="<?php echo str_replace(' ', '_', $engine_low_power_data); ?>_checkbox" name="<?php echo str_replace(' ', '_', $engine_low_power_data); ?>_checkbox" class="major-checkbox">
-                                            <span class="ml-4"><?php echo $engine_low_power_data; ?></span>
-                                        </span>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                    
-                    <?php } ?>
+                <?php if (!empty($engine_low_power_data)) { ?>
+                    <div id="elp_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        <label class="block">
+                            <span class="font-bold">Fuel and Air Intake System</span>
+                        </label>
+                        <div class="flex flex-col items-start pt-4 checkbox-group">
+                            <?php if (is_array($engine_low_power_data)) { ?>
+                                <?php foreach ($engine_low_power_data as $item) { ?>
+                                    <span class="ml-6 flex items-center">
+                                        <input type="checkbox" class="major-checkbox elp-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                                        <span class="ml-4"><?php echo $item; ?></span>
+                                    </span>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <span class="ml-6 flex items-center">
+                                    <input type="checkbox" class="major-checkbox elp-checkbox" id="<?php echo str_replace(' ', '_', $engine_low_power_data); ?>_checkbox" name="<?php echo str_replace(' ', '_', $engine_low_power_data); ?>_checkbox">
+                                    <span class="ml-4"><?php echo $engine_low_power_data; ?></span>
+                                </span>
+                            <?php } ?>
+                        </div>
+                        <!-- Inline percentage display -->
+                        <div class="pt-4">
+                            <span class="font-bold">Fuel and Air Intake System Progress: </span>
+                            <span id="engine_low_power_percentage">0%</span>
+                        </div>
+                    </div>
+                <?php } ?>
 
-                    <!-- Continue for electrical problem -->
-                    <?php if (!empty($electrical_problem_data)) { ?>
-                    
-                            <div id="elec_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                                <label class="block">
-                                    <span class="font-bold">Cooling and Lubrication</span>
-                                </label>
-                                <div class="flex flex-col items-start pt-4 checkbox-group">
-                                    <?php if (is_array($electrical_problem_data)) { ?>
-                                        <?php foreach ($electrical_problem_data as $item) { ?>
-                                            <span class="ml-6 flex items-center">
-                                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="major-checkbox">
-                                                <span class="ml-4"><?php echo $item; ?></span>
-                                            </span>
-                                        <?php } ?>
-                                    <?php } else { ?>
-                                        <span class="ml-6 flex items-center">
-                                            <input type="checkbox" id="<?php echo str_replace(' ', '_', $electrical_problem_data); ?>_checkbox" name="<?php echo str_replace(' ', '_', $electrical_problem_data); ?>_checkbox" class="major-checkbox">
-                                            <span class="ml-4"><?php echo $electrical_problem_data; ?></span>
-                                        </span>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                        
-                    <?php } ?>
-                    <!-- Add checkboxes and labels for other major problems here -->
-                </div>
+                <?php if (!empty($electrical_problem_data)) { ?>
+                    <div id="elec_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        <label class="block">
+                            <span class="font-bold">Cooling and Lubrication</span>
+                        </label>
+                        <div class="flex flex-col items-start pt-4 checkbox-group">
+                            <?php if (is_array($electrical_problem_data)) { ?>
+                                <?php foreach ($electrical_problem_data as $item) { ?>
+                                    <span class="ml-6 flex items-center">
+                                        <input type="checkbox" class="major-checkbox elec-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                                        <span class="ml-4"><?php echo $item; ?></span>
+                                    </span>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <span class="ml-6 flex items-center">
+                                    <input type="checkbox" class="major-checkbox elec-checkbox" id="<?php echo str_replace(' ', '_', $electrical_problem_data); ?>_checkbox" name="<?php echo str_replace(' ', '_', $electrical_problem_data); ?>_checkbox">
+                                    <span class="ml-4"><?php echo $electrical_problem_data; ?></span>
+                                </span>
+                            <?php } ?>
+                        </div>
+                        <!-- Inline percentage display -->
+                        <div class="pt-4">
+                            <span class="font-bold">Cooling and Lubrication Progress: </span>
+                            <span id="electrical_problem_percentage">0%</span>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
+        </div>
 
             <!-- For maintenance -->
 
@@ -228,185 +234,324 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
     <h2 class="text-2xl font-bold mb-4">Maintenance</h2>
     <div class="grid grid-cols-2 gap-4">
         <?php if (!empty($battery_data)) { ?>
-           
-                <div id="battery_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Battery</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($battery_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="battery_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Battery</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($battery_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox battery-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-         
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Battery Progress: </span>
+                    <span id="battery_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
 
-        <!-- Continue for other maintenance items -->
         <?php if (!empty($light_data)) { ?>
-            
-                <div id="light_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Light</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($light_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="light_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Light</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($light_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox light-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-    
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Light Progress: </span>
+                    <span id="light_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
 
-        <!-- Continue for other maintenance items -->
         <?php if (!empty($oil_data)) { ?>
-      
-                <div id="oil_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Oil</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($oil_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="oil_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Oil</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($oil_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox oil-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-      
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Oil Progress: </span>
+                    <span id="oil_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
 
         <!-- Continue for other maintenance items -->
         <?php if (!empty($water_data)) { ?>
-            
-                <div id="water_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Water</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($water_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="water_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Water</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($water_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox water-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-    
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Water Progress: </span>
+                    <span id="water_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
-        
-        <!-- Continue for other maintenance items -->
+
         <?php if (!empty($brake_data)) { ?>
-            
-                <div id="brake_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Brake</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($brake_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="brake_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Brake</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($brake_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox brake-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-            
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Brake Progress: </span>
+                    <span id="brake_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
-        
-        <!-- Continue for other maintenance items -->
+
         <?php if (!empty($air_data)) { ?>
-          
-                <div id="air_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Air</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($air_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="air_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Air</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($air_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox air-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-        
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Air Progress: </span>
+                    <span id="air_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
-        
-        <!-- Continue for other maintenance items -->
+
         <?php if (!empty($gas_data)) { ?>
-           
-                <div id="gas_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Gas</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($gas_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="gas_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Gas</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($gas_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox gas-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-       
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Gas Progress: </span>
+                    <span id="gas_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
-        
-        <!-- Continue for other maintenance items -->
+
         <?php if (!empty($tire_data)) { ?>
- 
-                <div id="tire_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    <label class="block">
-                        <span class="font-bold">Tire</span>
-                    </label>
-                    <div class="flex flex-col items-start pt-4 checkbox-group">
-                        <?php foreach ($tire_data as $item) { ?>
-                            <span class="ml-6 flex items-center">
-                                <input type="checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox" class="maintenance-checkbox">
-                                <span class="ml-4"><?php echo $item; ?></span>
-                            </span>
-                        <?php } ?>
-                    </div>
+            <div id="tire_container" class="border-2 border-gray-600 p-3 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <label class="block">
+                    <span class="font-bold">Tire</span>
+                </label>
+                <div class="flex flex-col items-start pt-4 checkbox-group">
+                    <?php foreach ($tire_data as $item) { ?>
+                        <span class="ml-6 flex items-center">
+                            <input type="checkbox" class="maintenance-checkbox tire-checkbox" id="<?php echo str_replace(' ', '_', $item); ?>_checkbox" name="<?php echo str_replace(' ', '_', $item); ?>_checkbox">
+                            <span class="ml-4"><?php echo $item; ?></span>
+                        </span>
+                    <?php } ?>
                 </div>
-          
+                <!-- Inline percentage display -->
+                <div class="pt-4">
+                    <span class="font-bold">Tire Progress: </span>
+                    <span id="tire_progress_percentage">0%</span>
+                </div>
+            </div>
         <?php } ?>
     </div>
 </div>
 
 
-
     <br>
     <!-- Your existing HTML code -->
       
-    <ul style="display: flex; justify-content: justify-between;  align-items: center; ">
+    
+   <ul style="display: flex; justify-content: justify-between;  align-items: center; ">
         <li style="margin-top: 48px; margin-left: -15px;"><strong>Progress</strong>:</li>
         <li  class="progress mt-5" style="width: 50%; margin-left: 15px;">
            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
         </li>
     </ul>
-    
-         <!-- <div class="progress mt-5" style="width: 50%;">
-           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-         </div> -->
-     
 
-        <button id="save-progress-btn" class="btn btn-primary mt-3">Save Progress</button>
-        <input type="hidden" id="user-id" value="<?php echo isset($_GET['user_id']) ? htmlspecialchars($_GET['user_id']) : ''; ?>">
-        <input type="hidden" id="car-id" value="<?php echo $car_id; ?>">
-        <input type="hidden" id="mechanic-id" value="<?php echo $_SESSION['mechanic_id']; ?>">
+    <button id="save-progress-btn" class="btn btn-primary mt-3">Save Progress</button>
+    <input type="hidden" id="user-id" value="<?php echo isset($_GET['user_id']) ? htmlspecialchars($_GET['user_id']) : ''; ?>">
+    <input type="hidden" id="car-id" value="<?php echo $car_id; ?>">
+    <input type="hidden" id="mechanic-id" value="<?php echo $_SESSION['mechanic_id']; ?>">
 
 
     <br>
     <br>
     <br>
-    <script>
+
+    <!-- For Each of them percentage -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select all checkboxes related to various sections
+            const eoCheckboxes = document.querySelectorAll('.eo-checkbox');
+            const mechanicalIssuesPercentage = document.getElementById('mechanical_issues_percentage');
+
+            const elpCheckboxes = document.querySelectorAll('.elp-checkbox');
+            const engineLowPowerPercentage = document.getElementById('engine_low_power_percentage');
+
+            const elecCheckboxes = document.querySelectorAll('.elec-checkbox');
+            const electricalProblemPercentage = document.getElementById('electrical_problem_percentage');
+
+            const batteryCheckboxes = document.querySelectorAll('.battery-checkbox');
+            const batteryProgressPercentage = document.getElementById('battery_progress_percentage');
+
+            const lightCheckboxes = document.querySelectorAll('.light-checkbox');
+            const lightProgressPercentage = document.getElementById('light_progress_percentage');
+
+            const oilCheckboxes = document.querySelectorAll('.oil-checkbox');
+            const oilProgressPercentage = document.getElementById('oil_progress_percentage');
+
+            const waterCheckboxes = document.querySelectorAll('.water-checkbox');
+            const waterProgressPercentage = document.getElementById('water_progress_percentage');
+
+            const brakeCheckboxes = document.querySelectorAll('.brake-checkbox');
+            const brakeProgressPercentage = document.getElementById('brake_progress_percentage');
+
+            const airCheckboxes = document.querySelectorAll('.air-checkbox');
+            const airProgressPercentage = document.getElementById('air_progress_percentage');
+
+            const gasCheckboxes = document.querySelectorAll('.gas-checkbox');
+            const gasProgressPercentage = document.getElementById('gas_progress_percentage');
+
+            const tireCheckboxes = document.querySelectorAll('.tire-checkbox'); // New selection for tire checkboxes
+            const tireProgressPercentage = document.getElementById('tire_progress_percentage'); // New percentage display
+
+            // Function to calculate and update the percentage for each section
+            function updateProgress(checkboxes, progressElement) {
+                const totalCheckboxes = checkboxes.length;
+                const checkedCheckboxes = document.querySelectorAll(`${checkboxes[0].className}:checked`).length;
+                const percentage = Math.round((checkedCheckboxes / totalCheckboxes) * 100);
+                progressElement.textContent = percentage + '%';
+            }
+
+            // Add event listeners to each checkbox for Mechanical Issues
+            eoCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(eoCheckboxes, mechanicalIssuesPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Fuel and Air Intake System
+            elpCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(elpCheckboxes, engineLowPowerPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Cooling and Lubrication
+            elecCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(elecCheckboxes, electricalProblemPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Battery
+            batteryCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(batteryCheckboxes, batteryProgressPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Light
+            lightCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(lightCheckboxes, lightProgressPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Oil
+            oilCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(oilCheckboxes, oilProgressPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Water
+            waterCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(waterCheckboxes, waterProgressPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Brake
+            brakeCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(brakeCheckboxes, brakeProgressPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Air
+            airCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(airCheckboxes, airProgressPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Gas
+            gasCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(gasCheckboxes, gasProgressPercentage); });
+            });
+
+            // Add event listeners to each checkbox for Tire
+            tireCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () { updateProgress(tireCheckboxes, tireProgressPercentage); });
+            });
+        });
+
+        // Wait for DOM to load before running the script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all checkbox groups and add event listeners
+        const checkboxGroups = document.querySelectorAll('.checkbox-group');
+
+        checkboxGroups.forEach(group => {
+            const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+            const percentageDisplay = group.closest('.border-2').querySelector('span[id$="_percentage"]');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+                    const totalCount = checkboxes.length;
+                    const percentage = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
+                    percentageDisplay.textContent = `${percentage}%`;
+                });
+            });
+        });
+    });
+    </script>
+
+
+
+
+<script>
 // Function to update progress percentage
 function updateProgress() {
     var totalCheckboxes = document.querySelectorAll('input[type="checkbox"]').length;
@@ -420,22 +565,83 @@ document.getElementById('save-progress-btn').addEventListener('click', function(
     var userId = document.getElementById('user-id').value;
     var carId = document.getElementById('car-id').value;
     var mechanicId = document.getElementById('mechanic-id').value;
-    var progressPercentage = document.querySelector('.progress-bar').innerText;
+    var overallProgressPercentage = document.querySelector('.progress-bar').innerText; // Overall progress from the main bar
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
-    // Send progress data to server using AJAX
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'save_progress.php');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            alert('Progress saved successfully.');
-        } else {
-            alert('Error saving progress: ' + xhr.responseText);
+    // If no items are checked, do nothing
+    if (checkboxes.length === 0) {
+        alert('No progress items selected to save.');
+        return;
+    }
+
+    // Loop through each checked checkbox to send individual requests
+    checkboxes.forEach(function(checkbox) {
+        var progressing = checkbox.nextElementSibling.innerText.trim(); // Get the label text next to the checkbox
+
+        // Determine the progressing percentage based on the checkbox class
+        var progressingPercentage = '0'; // Default to 0
+        if (checkbox.classList.contains('eo-checkbox')) {
+            progressingPercentage = document.getElementById('mechanical_issues_percentage').innerText; // Mechanical Issues
+        } else if (checkbox.classList.contains('elp-checkbox')) {
+            progressingPercentage = document.getElementById('engine_low_power_percentage').innerText; // Engine Low Power
+        } else if (checkbox.classList.contains('elec-checkbox')) {
+            progressingPercentage = document.getElementById('electrical_problem_percentage').innerText; // Electrical Problems
+        } else if (checkbox.classList.contains('battery-checkbox')) {
+            progressingPercentage = document.getElementById('battery_progress_percentage').innerText; // Battery Issues
+        } else if (checkbox.classList.contains('light-checkbox')) {
+            progressingPercentage = document.getElementById('light_progress_percentage').innerText; // Light Issues
+        } else if (checkbox.classList.contains('oil-checkbox')) {
+            progressingPercentage = document.getElementById('oil_progress_percentage').innerText; // Oil Issues
+        } else if (checkbox.classList.contains('water-checkbox')) {
+            progressingPercentage = document.getElementById('water_progress_percentage').innerText; // Water Issues
+        } else if (checkbox.classList.contains('brake-checkbox')) {
+            progressingPercentage = document.getElementById('brake_progress_percentage').innerText; // Brake Issues
+        } else if (checkbox.classList.contains('air-checkbox')) {
+            progressingPercentage = document.getElementById('air_progress_percentage').innerText; // Air Issues
+        } else if (checkbox.classList.contains('gas-checkbox')) {
+            progressingPercentage = document.getElementById('gas_progress_percentage').innerText; // Gas Issues
+        } else if (checkbox.classList.contains('tire-checkbox')) {
+            progressingPercentage = document.getElementById('tire_progress_percentage').innerText; // Tire Issues
         }
-    };
-    // Pass user_id, car_id, mechanic_id, and progress values in the request
-    xhr.send('user_id=' + userId + '&car_id=' + carId + '&mechanic_id=' + mechanicId + '&progress=' + progressPercentage);
+
+        // Check if progressingPercentage is still 0, indicating a problem retrieving the value
+        if (progressingPercentage === '0') {
+            console.warn('Progressing percentage for ' + progressing + ' is defaulting to 0. Please check the respective elements.');
+            return; // Skip sending this checkbox if the percentage is invalid
+        }
+
+        // Send progress data to server using AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'save_progress.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Progress saved for ' + progressing + ': ' + xhr.responseText);
+            } else {
+                console.error('Error saving progress for ' + progressing + ': ' + xhr.responseText);
+            }
+        };
+
+        // Pass user_id, car_id, mechanic_id, overall progress values, and progressing in the request
+        xhr.send('user_id=' + userId + '&car_id=' + carId + '&mechanic_id=' + mechanicId + '&progress=' + overallProgressPercentage + '&progressing=' + encodeURIComponent(progressing) + '&progressingpercentage=' + encodeURIComponent(progressingPercentage));
+    });
+
+    alert('Progress saving initiated for checked items.'); // Alert after the loop starts
 });
+
+
+
+// Function to calculate individual progress percentage based on checkbox group
+function calculateIndividualProgress(checkboxClass) {
+    const checkboxes = document.querySelectorAll(`.${checkboxClass}`);
+    const totalCheckboxes = checkboxes.length;
+    const checkedCheckboxes = document.querySelectorAll(`.${checkboxClass}:checked`).length;
+    
+    if (totalCheckboxes === 0) return '0%'; // Avoid division by zero
+    const percentage = Math.round((checkedCheckboxes / totalCheckboxes) * 100);
+    return percentage + '%';
+}
 
 
 
@@ -451,6 +657,5 @@ checkboxes.forEach(function(checkbox) {
 updateProgress();
 </script>
 
-
-    </body>
-    </html>
+</body>
+</html>
