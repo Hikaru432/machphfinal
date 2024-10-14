@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Function to handle inserts
     function insertRepair($conn, $mechanic_id, $user_id, $car_id, $problem, $diagnosis) {
-        $insert_query = "INSERT INTO repair (mechanic_id, user_id, plateno, problem, diagnosis) VALUES (?, ?, ?, ?, ?)";
+        $insert_query = "INSERT INTO diagnose (mechanic_id, user_id, plateno, problem, diagnosis) VALUES (?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $insert_query);
         mysqli_stmt_bind_param($stmt, 'iisss', $mechanic_id, $user_id, $car_id, $problem, $diagnosis);
         $result = mysqli_stmt_execute($stmt);

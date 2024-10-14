@@ -18,13 +18,13 @@ if (!isset($_SESSION['mechanic_id'])) {
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
     // Check if selected checkboxes are present in the POST request
-    if (isset($_POST['selected_checkboxes']) && is_array($_POST['selected_checkboxes'])) {
+    if (isset($_POST['repairrecord']) && is_array($_POST['repairrecord'])) {
         // Retrieve user_id and car_id from POST data
         $user_id = $_POST['user_id'];
         $car_id = $_POST['car_id'];
 
         // Call the function to insert data into the database
-        saveSelectedCheckboxes($_POST['selected_checkboxes'], $_POST['quantity'], $conn, $user_id, $car_id);
+        saveSelectedCheckboxes($_POST['repairrecord'], $_POST['quantity'], $conn, $user_id, $car_id);
         
         // Retrieve mechanic_id from session
         $mechanic_id = $_SESSION['mechanic_id'];
@@ -41,7 +41,7 @@ function saveSelectedCheckboxes($selected_checkboxes, $quantity, $conn, $user_id
     $mechanic_id = $_SESSION['mechanic_id'];
 
     // Prepare and bind the INSERT statement
-    $stmt = $conn->prepare("INSERT INTO selected_checkboxes (category, checkbox_value, quantity, user_id, car_id, mechanic_id, other_product) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO repairrecord (category, checkbox_value, quantity, user_id, car_id, mechanic_id, other_product) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssdisss", $category, $checkbox_value, $quantity_value, $user_id, $car_id, $mechanic_id, $other_product);
 
     // Loop through each selected checkbox

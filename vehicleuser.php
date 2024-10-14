@@ -14,9 +14,9 @@ include 'config.php';
 $user_id = $_SESSION['user_id'];
 
 // Perform the query to fetch car information for the specific user including progress data
-$query = "SELECT manufacturer.name AS manuname, car.carmodel, car.color, progress.progress_percentage
+$query = "SELECT manufacturer.name AS manuname, car.carmodel, car.color, accomplishtask.progress_percentage
           FROM car
-          LEFT JOIN progress ON car.car_id = progress.car_id
+          LEFT JOIN accomplishtask ON car.car_id = accomplishtask.car_id
           LEFT JOIN manufacturer ON car.manufacturer_id = manufacturer.id
           WHERE car.user_id = $user_id";
 

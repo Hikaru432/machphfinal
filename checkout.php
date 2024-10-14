@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payment_method = $_POST['payment_method']; // Assuming radio button values are 'cash', 'gcash', 'paypal'
 
     // Insert order details into the database
-    $insert_order_query = "INSERT INTO orders (user_id, payment_method, total_price) VALUES ('$user_id', '$payment_method', '$totalPrice')";
+    $insert_order_query = "INSERT INTO salesreport (user_id, payment_method, total_price) VALUES ('$user_id', '$payment_method', '$totalPrice')";
     $insert_order_result = mysqli_query($conn, $insert_order_query);
 
     if ($insert_order_result) {
@@ -42,16 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             move_uploaded_file($tmp_name, $upload_dir . '/' . $filename);
 
             // Update the order record with the filename
-            $update_order_query = "UPDATE orders SET paymentimg = '$filename' WHERE id = $order_id";
+            $update_order_query = "UPDATE salesreport SET paymentimg = '$filename' WHERE id = $order_id";
             mysqli_query($conn, $update_order_query);
         }
         
-        $currentDate = date('Y-m-d'); // Get current date
+        $currentDate = date('Y-m-d'); // Get current dateorders 
         foreach ($products as $product) {
             $product_id = $product['id'];
             $quantity = $product['quantity'];
             $price = $product['selling_price']; // Assuming 'selling_price' is the column name for product price
-            $insert_order_item_query = "INSERT INTO order_items (order_id, product_id, quantity, price, order_date) VALUES ('$order_id', '$product_id', '$quantity', '$price', '$currentDate')";
+            $insert_order_item_query = "INSERT INTO servicebilling (order_id, product_id, quantity, price, order_date) VALUES ('$order_id', '$product_id', '$quantity', '$price', '$currentDate')";
             mysqli_query($conn, $insert_order_item_query);
         }
 
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Update the order record with the optional detail
-        $update_order_query = "UPDATE orders SET detail = ? WHERE id = ?";
+        $update_order_query = "UPDATE salesreport SET detail = ? WHERE id = ?";
         $update_statement = mysqli_prepare($conn, $update_order_query);
         mysqli_stmt_bind_param($update_statement, "si", $details, $order_id);
         mysqli_stmt_execute($update_statement);

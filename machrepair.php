@@ -19,7 +19,7 @@ $repair_data = array();
 // Function to fetch and store data for a specific problem
 function fetchDataForProblem($conn, $mechanic_id, $car_id, $problem)
 {
-    $query = "SELECT diagnosis FROM repair WHERE mechanic_id = ? AND plateno = ? AND problem = ?";
+    $query = "SELECT diagnosis FROM diagnose WHERE mechanic_id = ? AND plateno = ? AND problem = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, 'iis', $mechanic_id, $car_id, $problem);
     mysqli_stmt_execute($stmt);

@@ -13,7 +13,7 @@ if(isset($_POST['car_id'])) {
     $user_id = $_SESSION['user_id']; // Assuming user ID is stored in session
 
     // Prepare and execute query to fetch checkboxes
-    $query = "SELECT * FROM selected_checkboxes WHERE car_id = $car_id AND user_id = $user_id";
+    $query = "SELECT * FROM repairrecord WHERE car_id = $car_id AND user_id = $user_id";
     $result = mysqli_query($conn, $query);
 
     if($result) {

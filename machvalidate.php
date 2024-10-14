@@ -47,7 +47,7 @@ if ($user_car_result && mysqli_num_rows($user_car_result) > 0) {
 // Function to fetch and store data for a specific problem
 function fetchDataForProblem($conn, $user_id, $car_id, $problem)
 {
-    $query = "SELECT diagnosis FROM repair WHERE user_id = ? AND plateno = ? AND problem = ?";
+    $query = "SELECT diagnosis FROM diagnose WHERE user_id = ? AND plateno = ? AND problem = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, 'iss', $user_id, $car_id, $problem);
     mysqli_stmt_execute($stmt);
@@ -194,7 +194,7 @@ function displayProblemParts($problem_parts_mapping, $user_id, $car_id)
             foreach ($subparts as $subpart) {
                 echo '<div style="margin-bottom: 10px;">'; // Start a new row for checkboxes
                 // Include the category in the name attribute for uniqueness
-                echo '<input type="checkbox" class="part-checkbox" id="' . str_replace(' ', '_', $subpart) . '" name="selected_checkboxes[' . $problem . '][]" value="' . $subpart . '" style="margin-right: 5px;">';
+                echo '<input type="checkbox" class="part-checkbox" id="' . str_replace(' ', '_', $subpart) . '" name="repairrecord[' . $problem . '][]" value="' . $subpart . '" style="margin-right: 5px;">';
                 echo '<label for="' . str_replace(' ', '_', $subpart) . '" style="margin-right: 10px;">' . $subpart . '</label>';
     
                 // Input field for quantity

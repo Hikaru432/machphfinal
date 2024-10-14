@@ -204,7 +204,7 @@ if (!$result) {
                             <?php
                             // Query to fetch progress data for the mechanic
                             $progress_query = "SELECT u.name AS user_name, c.carmodel, ROUND(AVG(p.progress_percentage), 2) AS avg_progress
-                                               FROM progress AS p
+                                               FROM accomplishtask AS p
                                                INNER JOIN user AS u ON p.user_id = u.id
                                                INNER JOIN car AS c ON p.car_id = c.car_id
                                                WHERE p.mechanic_id = '{$mechanic_row['mechanic_id']}'
