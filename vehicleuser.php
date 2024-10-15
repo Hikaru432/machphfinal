@@ -13,13 +13,13 @@ include 'config.php';
 // Get the user ID from the session
 $user_id = $_SESSION['user_id'];
 
-// Perform the query to fetch car information for the specific user including progress data
-$query = "SELECT manufacturer.name AS manuname, car.carmodel, car.color, accomplishtask.progress_percentage
+// Perform the query to fetch unique car information for the specific user including progress data
+$query = "SELECT manufacturer.name AS manuname, car.carmodel, car.color, car.car_id, MAX(accomplishtask.progress_percentage) AS progress_percentage
           FROM car
           LEFT JOIN accomplishtask ON car.car_id = accomplishtask.car_id
           LEFT JOIN manufacturer ON car.manufacturer_id = manufacturer.id
-          WHERE car.user_id = $user_id";
-
+          WHERE car.user_id = $user_id
+          GROUP BY car.car_id"; // Group by car_id to avoid duplicates
 
 $result = mysqli_query($conn, $query);
 
@@ -65,79 +65,75 @@ if (!$result) {
             </div>
             <ul class="sidebar-nav">
             <li class="sidebar-item">
-              <!--  <ion-icon style="color:white; font-size: 25px; position: absolute; top: 6px; left: 8px;" name="person-circle"></ion-icon>-->
-                    <a href="home.php" class="sidebar-link">
+                <a href="home.php" class="sidebar-link">
                     <span class="active" style="margin-left: 13px;">Dashboard</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-               <!-- <ion-icon style="color:white; font-size: 25px; position: absolute; top: 6px; left: 8px;" name="person-circle"></ion-icon>-->
-                    <a href="profile.php" class="sidebar-link">
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="profile.php" class="sidebar-link">
                     <span style="margin-left: 13px;">Profile</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-               <!-- <ion-icon style="color:white; font-size: 25px; position: absolute; top: 6px; left: 8px;" name="person-circle"></ion-icon>-->
-                    <a href="carusers.php" class="sidebar-link">
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="carusers.php" class="sidebar-link">
                     <span style="margin-left: 13px;">Car user</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
-                        <i class="lni lni-protection"></i>
-                        <span>Auth</span>
-                    </a>
-                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="register.php" class="sidebar-link">User register</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="carregistration.php" class="sidebar-link">Car register</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="update_profile.php" class="sidebar-link">Update profile</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
-                        <i class="lni lni-layout"></i>
-                        <span>Appointent</span>
-                    </a>
-                    <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                                <li class="sidebar-item">
-                                    <a href="identify.php" class="sidebar-link">Identifying</a>
-                                </li>
-
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-popup"></i>
-                        <span>Notification</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Setting</span>
-                    </a>
-                </li>
-            </ul>
-            <div class="sidebar-footer">
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                    <i class="lni lni-protection"></i>
+                    <span>Auth</span>
+                </a>
+                <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="register.php" class="sidebar-link">User register</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="carregistration.php" class="sidebar-link">Car register</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="update_profile.php" class="sidebar-link">Update profile</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
+                    <i class="lni lni-layout"></i>
+                    <span>Appointment</span>
+                </a>
+                <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="identify.php" class="sidebar-link">Identifying</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="lni lni-popup"></i>
+                    <span>Notification</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="lni lni-cog"></i>
+                    <span>Setting</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
             <a href="index.php" target="_blanck" class="sidebar-link">
                 <i class="lni lni-exit"></i>
                 <span>Logout</span>
             </a>
-            </div>
-        </aside>
-        <div class="main p-3">
-            <div class="text-center bg-secondary">
-                <li></li>
-            </div>
         </div>
+    </aside>
+    <div class="main p-3">
+        <div class="text-center bg-secondary">
+            <li></li>
+        </div>
+    </div>
     </div>
     
     <!-- Sectioning -->
@@ -181,12 +177,27 @@ if (!$result) {
                             $progressStatus = 'Done';
                         }
 
+                        // Retrieve additional information from the accomplishtask table
+                        $additionalInfo = ""; // Placeholder for additional information
+                        $car_id = $row['car_id']; // Now we can access car_id since it is included in the query
+                        $queryAdditional = "SELECT nameprogress, progressing, progressingpercentage 
+                                            FROM accomplishtask 
+                                            WHERE car_id = $car_id"; // Use the car_id retrieved above
+                        $resultAdditional = mysqli_query($conn, $queryAdditional);
+
+                        if ($resultAdditional) {
+                            while ($info = mysqli_fetch_assoc($resultAdditional)) {
+                                $additionalInfo .= "<strong>{$info['nameprogress']}</strong>: {$info['progressing']} ({$info['progressingpercentage']})<br>";
+                            }
+                        }
+
                         echo "<tr>";
                         echo "<td>{$row['manuname']}</td>";
                         echo "<td>{$row['carmodel']}</td>";
                         echo "<td>{$row['color']}</td>";
-                        echo "<td class='$progressColor'>$progressStatus ({$row['progress_percentage']}%)</td>";
+                        echo "<td class='$progressColor' onclick='toggleDetails(this)' data-details='$additionalInfo'>$progressStatus ({$row['progress_percentage']}%)</td>";
                         echo "</tr>";
+                        echo "<tr class='details' style='display:none;'><td colspan='4' class='details-content'></td></tr>"; // Row for additional details
                     }
                 } else {
                     echo "<tr><td colspan='4'>No vehicles found.</td></tr>";
@@ -194,10 +205,25 @@ if (!$result) {
                 ?>
             </tbody>
         </table>
-    </div>
+
+        <script>
+        function toggleDetails(element) {
+            const detailsRow = element.parentElement.nextElementSibling; // Get the next row
+            const detailsContent = detailsRow.querySelector('.details-content'); // Get the content cell
+
+            // Toggle the display of the details row
+            if (detailsRow.style.display === 'none') {
+                detailsContent.innerHTML = element.getAttribute('data-details'); // Set the additional info
+                detailsRow.style.display = 'table-row'; // Show the details row
+            } else {
+                detailsRow.style.display = 'none'; // Hide the details row
+            }
+        }
+        </script>
+
+        </div>
         </div>
     </section>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
