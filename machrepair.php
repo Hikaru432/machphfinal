@@ -574,37 +574,65 @@ document.getElementById('save-progress-btn').addEventListener('click', function(
         return;
     }
 
+    // Define the problem categories
+    var problemCategories = {
+        'eo-checkbox': 'Mechanical Issues',
+        'elp-checkbox': 'Fuel and Air intake System',
+        'elec-checkbox': 'Cooling and Lubrication',
+        'battery-checkbox': 'Battery',
+        'light-checkbox': 'Light',
+        'oil-checkbox': 'Oil',
+        'water-checkbox': 'Water',
+        'brake-checkbox': 'Brake',
+        'air-checkbox': 'Air',
+        'gas-checkbox': 'Gas',
+        'tire-checkbox': 'Tire'
+    };
+
     // Loop through each checked checkbox to send individual requests
     checkboxes.forEach(function(checkbox) {
         var progressing = checkbox.nextElementSibling.innerText.trim(); // Get the label text next to the checkbox
 
-        // Determine the progressing percentage based on the checkbox class
+        // Determine the progressing percentage and nameprogress based on the checkbox class
         var progressingPercentage = '0'; // Default to 0
+        var nameProgress = '';
+
         if (checkbox.classList.contains('eo-checkbox')) {
-            progressingPercentage = document.getElementById('mechanical_issues_percentage').innerText; // Mechanical Issues
+            progressingPercentage = document.getElementById('mechanical_issues_percentage').innerText;
+            nameProgress = problemCategories['eo-checkbox'];
         } else if (checkbox.classList.contains('elp-checkbox')) {
-            progressingPercentage = document.getElementById('engine_low_power_percentage').innerText; // Engine Low Power
+            progressingPercentage = document.getElementById('engine_low_power_percentage').innerText;
+            nameProgress = problemCategories['elp-checkbox'];
         } else if (checkbox.classList.contains('elec-checkbox')) {
-            progressingPercentage = document.getElementById('electrical_problem_percentage').innerText; // Electrical Problems
+            progressingPercentage = document.getElementById('electrical_problem_percentage').innerText;
+            nameProgress = problemCategories['elec-checkbox'];
         } else if (checkbox.classList.contains('battery-checkbox')) {
-            progressingPercentage = document.getElementById('battery_progress_percentage').innerText; // Battery Issues
+            progressingPercentage = document.getElementById('battery_progress_percentage').innerText;
+            nameProgress = problemCategories['battery-checkbox'];
         } else if (checkbox.classList.contains('light-checkbox')) {
-            progressingPercentage = document.getElementById('light_progress_percentage').innerText; // Light Issues
+            progressingPercentage = document.getElementById('light_progress_percentage').innerText;
+            nameProgress = problemCategories['light-checkbox'];
         } else if (checkbox.classList.contains('oil-checkbox')) {
-            progressingPercentage = document.getElementById('oil_progress_percentage').innerText; // Oil Issues
+            progressingPercentage = document.getElementById('oil_progress_percentage').innerText;
+            nameProgress = problemCategories['oil-checkbox'];
         } else if (checkbox.classList.contains('water-checkbox')) {
-            progressingPercentage = document.getElementById('water_progress_percentage').innerText; // Water Issues
+            progressingPercentage = document.getElementById('water_progress_percentage').innerText;
+            nameProgress = problemCategories['water-checkbox'];
         } else if (checkbox.classList.contains('brake-checkbox')) {
-            progressingPercentage = document.getElementById('brake_progress_percentage').innerText; // Brake Issues
+            progressingPercentage = document.getElementById('brake_progress_percentage').innerText;
+            nameProgress = problemCategories['brake-checkbox'];
         } else if (checkbox.classList.contains('air-checkbox')) {
-            progressingPercentage = document.getElementById('air_progress_percentage').innerText; // Air Issues
+            progressingPercentage = document.getElementById('air_progress_percentage').innerText;
+            nameProgress = problemCategories['air-checkbox'];
         } else if (checkbox.classList.contains('gas-checkbox')) {
-            progressingPercentage = document.getElementById('gas_progress_percentage').innerText; // Gas Issues
+            progressingPercentage = document.getElementById('gas_progress_percentage').innerText;
+            nameProgress = problemCategories['gas-checkbox'];
         } else if (checkbox.classList.contains('tire-checkbox')) {
-            progressingPercentage = document.getElementById('tire_progress_percentage').innerText; // Tire Issues
+            progressingPercentage = document.getElementById('tire_progress_percentage').innerText;
+            nameProgress = problemCategories['tire-checkbox'];
         }
 
-        // Check if progressingPercentage is still 0, indicating a problem retrieving the value
+        // Check if progressingPercentage is valid
         if (progressingPercentage === '0') {
             console.warn('Progressing percentage for ' + progressing + ' is defaulting to 0. Please check the respective elements.');
             return; // Skip sending this checkbox if the percentage is invalid
@@ -623,12 +651,13 @@ document.getElementById('save-progress-btn').addEventListener('click', function(
             }
         };
 
-        // Pass user_id, car_id, mechanic_id, overall progress values, and progressing in the request
-        xhr.send('user_id=' + userId + '&car_id=' + carId + '&mechanic_id=' + mechanicId + '&progress=' + overallProgressPercentage + '&progressing=' + encodeURIComponent(progressing) + '&progressingpercentage=' + encodeURIComponent(progressingPercentage));
+        // Pass user_id, car_id, mechanic_id, overall progress, progressing, progressingpercentage, and nameprogress
+        xhr.send('user_id=' + userId + '&car_id=' + carId + '&mechanic_id=' + mechanicId + '&progress=' + overallProgressPercentage + '&progressing=' + encodeURIComponent(progressing) + '&progressingpercentage=' + encodeURIComponent(progressingPercentage) + '&nameprogress=' + encodeURIComponent(nameProgress));
     });
 
-    alert('Progress saving initiated for checked items.'); // Alert after the loop starts
+    alert('Progress saving initiated for checked items.');
 });
+
 
 
 
