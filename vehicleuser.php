@@ -190,7 +190,6 @@ if (!$result) {
                                 $additionalInfo .= "<strong>{$info['nameprogress']}</strong>: {$info['progressing']} ({$info['progressingpercentage']})<br>";
                             }
                         }
-
                         echo "<tr>";
                         echo "<td>{$row['manuname']}</td>";
                         echo "<td>{$row['carmodel']}</td>";

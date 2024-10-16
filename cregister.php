@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="tel" class="form-control" id="companyphonenumber" name="companyphonenumber" required>
                         </div>
                         <div class="mb-3">
-                            <label for="streetaddress" class="form-label">Street Address</label>
+                            <label for="streetaddress" class="form-label">Barangays</label>
                             <input type="text" class="form-control" id="streetaddress" name="streetaddress" required>
                         </div>
                         <div class="mb-3">

@@ -71,6 +71,11 @@ $result = mysqli_query($conn, $query);
 
                 </li>
                 <li class="sidebar-item">
+                <!-- <ion-icon style="color:white; font-size: 25px; position: absolute; top: 6px; left: 8px;" name="person-circle"></ion-icon>-->
+                <a hrefv="ehicleuser.php?user_id=<?php echo $_SESSION['user_id']; ?>" class="sidebar-link">
+                        <span style="margin-left: 13px;">Vehicle user</span>
+                    </a>
+                <li class="sidebar-item">
                     <a href="shop.php" class="sidebar-link">
                     <span style="margin-left: 13px;">shop</span>
                     </a>
