@@ -31,62 +31,86 @@ if (!$result) {
 <div class="container mt-5">
     <h2>Service Executive</h2>
     <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Manufacturer</th>
-                <th>Car Model</th>
-                <th>Plate no.</th>
-                <th>Color</th>
-                <th>Mechanic Approval</th>
-                <th>Assign Mechanic</th>
-            </tr>
-        </thead>
-        <tbody class="table-body">
-            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                <tr>
-                    <td><strong><?php echo $row['name']; ?></strong></td>
-                    <td><?php echo $row['manuname']; ?></td>
-                    <td><?php echo $row['carmodel']; ?></td>
-                    <td><?php echo $row['plateno']; ?></td>
-                    <td><?php echo $row['color']; ?></td>
-                    <td>
-                        <?php
-                        if ($row['status'] === '1') {
-                            echo 'Approve';
-                        } elseif ($row['status'] === '0') {
-                            echo 'Not Approve';
-                            if (!empty($row['reason'])) {
-                                echo ' - ' . $row['reason'];
-                            }
-                        } else {
-                            echo 'Not Set';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <select name="mechanic_id" class="mechanic-select">
-                            <option value="">Select mechanic</option>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manufacturer</th>
+            <th>Car Model</th>
+            <th>Plate no.</th>
+            <th>Color</th>
+            <th>Mechanic Approval</th>
+            <th>Assign Mechanic</th>
+        </tr>
+    </thead>
+    <tbody class="table-body">
+        <?php 
+        // Ensure companyid is present in the session
+        if ($companyid) {
+            // Modify your query to ensure data is fetched based on the current companyid
+            $query = "SELECT user.id as user_id, user.name, car.carmodel, car.plateno, car.car_id, car.color, manufacturer.name AS manuname, approvals.status, approvals.reason, autoshop.companyname
+                      FROM user
+                      JOIN car ON user.id = car.user_id
+                      LEFT JOIN manufacturer ON car.manufacturer_id = manufacturer.id
+                      LEFT JOIN approvals ON user.id = approvals.user_id AND car.car_id = approvals.car_id
+                      JOIN autoshop ON autoshop.companyid = car.companyid
+                      WHERE car.companyid = '$companyid'";
+            $result = mysqli_query($conn, $query);
+
+            // Check if the result is valid
+            if ($result && mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <tr>
+                        <td><strong><?php echo $row['name']; ?></strong></td>
+                        <td><?php echo $row['manuname']; ?></td>
+                        <td><?php echo $row['carmodel']; ?></td>
+                        <td><?php echo $row['plateno']; ?></td>
+                        <td><?php echo $row['color']; ?></td>
+                        <td>
                             <?php
-                            $mechanic_query = "SELECT mechanic_id, CONCAT(firstname) AS name, jobrole
-                                               FROM mechanic 
-                                               WHERE companyid = '$companyid'";
-                            $mechanic_result = mysqli_query($conn, $mechanic_query);
-                            if ($mechanic_result && mysqli_num_rows($mechanic_result) > 0) {
-                                while ($mechanic_row = mysqli_fetch_assoc($mechanic_result)) {
-                                    echo "<option value=\"{$mechanic_row['mechanic_id']}\">{$mechanic_row['jobrole']} - {$mechanic_row['name']}</option>";
+                            if ($row['status'] === '1') {
+                                echo 'Approve';
+                            } elseif ($row['status'] === '0') {
+                                echo 'Not Approve';
+                                if (!empty($row['reason'])) {
+                                    echo ' - ' . $row['reason'];
                                 }
                             } else {
-                                echo "<option value=\"\">No mechanics available</option>";
+                                echo 'Not Set';
                             }
                             ?>
-                        </select>
-                        <button type="button" class="btn-assign-mechanic" data-user-id="<?php echo $row['user_id']; ?>" data-car-id="<?php echo $row['car_id']; ?>">Assign</button>
-                    </td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+                        </td>
+                        <td>
+                            <select name="mechanic_id" class="mechanic-select">
+                                <option value="">Select mechanic</option>
+                                <?php
+                                // Fetch mechanics only for the current companyid
+                                $mechanic_query = "SELECT mechanic_id, CONCAT(firstname) AS name, jobrole
+                                                   FROM mechanic 
+                                                   WHERE companyid = '$companyid'";
+                                $mechanic_result = mysqli_query($conn, $mechanic_query);
+                                if ($mechanic_result && mysqli_num_rows($mechanic_result) > 0) {
+                                    while ($mechanic_row = mysqli_fetch_assoc($mechanic_result)) {
+                                        echo "<option value=\"{$mechanic_row['mechanic_id']}\">{$mechanic_row['jobrole']} - {$mechanic_row['name']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value=\"\">No mechanics available</option>";
+                                }
+                                ?>
+                            </select>
+                            <button type="button" class="btn-assign-mechanic" data-user-id="<?php echo $row['user_id']; ?>" data-car-id="<?php echo $row['car_id']; ?>">Assign</button>
+                        </td>
+                    </tr>
+                <?php }
+            } else {
+                echo "<tr><td colspan='7'>No records found for the company.</td></tr>";
+            }
+        } else {
+            echo "<tr><td colspan='7'>Company ID not found in session.</td></tr>";
+        }
+        ?>
+    </tbody>
+</table>
+
 
     <!-- Script for assigning mechanics -->
     <script>

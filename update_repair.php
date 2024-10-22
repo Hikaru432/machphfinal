@@ -54,11 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Approval handling
-    if ($approval_status) {
+    if ($approval_status === '1' || $approval_status === '0') {
         $update_approvals_query = "INSERT INTO approvals (mechanic_id, user_id, car_id, status, reason) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE status = VALUES(status), reason = VALUES(reason)";
         $stmt = mysqli_prepare($conn, $update_approvals_query);
         mysqli_stmt_bind_param($stmt, 'iiiss', $mechanic_id, $user_id, $car_id, $approval_status, $not_approve_reason);
         if (!mysqli_stmt_execute($stmt)) {
+            echo "Error: " . mysqli_error($conn);
             $all_inserts_successful = false; // Mark as false if update fails
         }
         mysqli_stmt_close($stmt);

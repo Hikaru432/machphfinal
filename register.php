@@ -20,34 +20,8 @@ if (isset($_POST['submit'])) {
     $image = $_FILES['image']['name'];
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_folder = 'uploaded_img/' . $image;
-    $role = 'user';
-
-    // Check if the mechanic checkbox is checked
-    if (isset($_POST['isMechanic'])) {
-        $employment = mysqli_real_escape_string($conn, $_POST['employment']);
-        $jobrole = mysqli_real_escape_string($conn, $_POST['jobrole']);
-        $companyid = mysqli_real_escape_string($conn, $_POST['autoshop']); // Use 'autoshop' instead of 'companyid'
-        $apply = 'pending'; // Default to pending
-        $role = 'mechanic'; // Set role to 'mechanic'
-    
-        // Insert user details into the user table
-        $insert_user = mysqli_query($conn, "INSERT INTO user (name, email, password, image, firstname, middlename, lastname, homeaddress, barangay, province, municipality, zipcode, role) VALUES ('$name', '$email', '$pass', '$image', '$firstname', '$middlename', '$lastname', '$homeaddress', '$barangay', '$province', '$municipality', '$zipcode', '$role')") or die('user query failed');
-    
-        // For user_id
-        $user_id = mysqli_insert_id($conn);
-        $insert_mechanic = mysqli_query($conn, "INSERT INTO mechanic (user_id, employment, jobrole, companyid, apply) VALUES ('$user_id', '$employment', '$jobrole', '$companyid', 'pending')") or die('mechanic query failed');
-    
-        // For mechanic_id specific update to table
-        $mechanic_id = mysqli_insert_id($conn);
-        $update_user = mysqli_query($conn, "UPDATE user SET mechanic_id = '$mechanic_id' WHERE id = '$user_id'") or die('update user query failed');
-    }
-    
-    // Manager
-    if (isset($_POST['isManager'])) {
-        $managerRole = mysqli_real_escape_string($conn, $_POST['managerRole']);
-        $role = 'manager'; // Set role to 'manager'
-    }
+    $image_folder = __DIR__ . '/uploaded_img/' . $image; // Use absolute path with __DIR__
+    $role = 'user'; // Default role
 
     // Check if the user already exists
     $select = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email'") or die('query failed');
@@ -60,14 +34,21 @@ if (isset($_POST['submit'])) {
             $message[] = 'Confirm password not matched!';
         } elseif ($image_size > 2000000) {
             $message[] = 'Image size is too large!';
+        } elseif (!is_writable(__DIR__ . '/uploaded_img/')) {
+            $message[] = 'Upload directory is not writable. Please check folder permissions.';
         } else {
             // Insert user details into the database
             $insert = mysqli_query($conn, "INSERT INTO user (name, email, password, image, firstname, middlename, lastname, homeaddress, barangay, province, municipality, zipcode, role)
             VALUES ('$name', '$email', '$pass', '$image', '$firstname', '$middlename', '$lastname', '$homeaddress', '$barangay', '$province', '$municipality', '$zipcode', '$role')") or die('query failed');         
+            
             if ($insert) {
-                move_uploaded_file($image_tmp_name, $image_folder);
-                $message[] = 'Registered successfully!';
-                header('location:index.php');
+                // Attempt to move the uploaded file
+                if (move_uploaded_file($image_tmp_name, $image_folder)) {
+                    $message[] = 'Registered successfully and image uploaded!';
+                    header('location:index.php');
+                } else {
+                    $message[] = 'Failed to upload the image. Please check permissions and folder path.';
+                }
             } else {
                 $message[] = 'Registration failed!';
             }
@@ -107,41 +88,7 @@ if (isset($_POST['submit'])) {
             <input type="text" name="zipcode" placeholder="Enter zip code" class="box" required>
             <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
 
-            
-            <!-- <input type="checkbox" name="isMechanic" id="isMechanic">
-                <label for="isMechanic">Register as Mechanic</label>
-                <div id="mechanicFields" style="display:none;">
-                    <select name="employment" class="box">
-                        <option value="full_time">Full Time</option>
-                        <option value="part_time">Part Time</option>
-                        <option value="intern_temporary">Intern/Temporary</option>
-                    </select>
-                    <select name="autoshop" class="box">
-                        <option value="">Select company</option>
-                        <?php
-                        $autoshop_query = mysqli_query($conn, "SELECT * FROM autoshop");
-                        while ($row = mysqli_fetch_assoc($autoshop_query)) {
-                            echo "<option value='" . $row['companyid'] . "'>" . $row['companyname'] . "</option>";
-                        }
-                        ?>
-                    </select>
-                    <select name="jobrole" class="box" required>
-                        <option value="Automotive mechanic">Automotive mechanic</option>
-                        <option value="Brake technicians">Brake technicians</option>
-                        <option value="Small engine mechanic">Small engine mechanic</option>
-                        <option value="Tire mechanics">Tire mechanics</option>
-                    </select>
-                </div> -->
          <br>
-         <!-- <input type="checkbox" name="isManager" id="isManager">
-                  <label for="isManager">Register as Manager</label>
-                  <div id="managerFields" style="display:none;">
-                     <select name="managerRole" class="box" required>
-                        <option value="vehicle_inspector">Vehicle Inspector</option>
-                        <option value="auto_electrician">Auto Electrician</option>
-                        <option value="auto_sales_manager">Auto Sales Manager</option>
-                     </select>
-                  </div> -->
          </div>
          
          <div class="form-column form-column-2">
@@ -157,19 +104,6 @@ if (isset($_POST['submit'])) {
        </div>
    </form>
 </div>
-
-<script>
-    document.getElementById('isMechanic').addEventListener('change', function () {
-        var mechanicFields = document.getElementById('mechanicFields');
-        mechanicFields.style.display = this.checked ? 'block' : 'none';
-    });
-
-    document.getElementById('isManager').addEventListener('change', function () {
-    var managerFields = document.getElementById('managerFields');
-    managerFields.style.display = this.checked ? 'block' : 'none';
-});
-
-</script>
 
 </body>
 </html>

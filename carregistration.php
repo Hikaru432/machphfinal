@@ -154,9 +154,31 @@ if (!$manufacturer_query) {
         <select name="carmodel" placeholder="Enter car model" class="box" id="carmodel">
             <option>select vehicle model</option>
         </select>
-        <input type="text" name="year" placeholder="Year" class="box" required>
+        <select name="year" class="box" required>
+            <option value="">Select Year</option>
+            <?php
+            // Generate options for years from 1990 to the current year
+            $currentYear = date("Y");
+            for ($year = 1990; $year <= $currentYear; $year++) {
+                echo "<option value=\"$year\">$year</option>";
+            }
+            ?>
+        </select>
         <input type="text" name="bodyno" placeholder="Enter body number" class="box" required>
-        <input type="text" name="color" placeholder="Color" class="box" required>
+        <select name="color" class="box" required>
+            <option value="">Select Color</option>
+            <option value="Red">Red</option>
+            <option value="Blue">Blue</option>
+            <option value="Green">Green</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Silver">Silver</option>
+            <option value="Gray">Gray</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Orange">Orange</option>
+            <option value="Purple">Purple</option>
+            <option value="Brown">Brown</option>
+        </select>
 
         <select name="enginecc" placeholder="Enter Engine cc" class="box" required>
             <option value="">Select cc</option>

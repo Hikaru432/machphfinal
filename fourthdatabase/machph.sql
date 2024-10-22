@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2024 at 08:20 AM
+-- Generation Time: Oct 23, 2024 at 12:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,15 +38,6 @@ CREATE TABLE `accomplishtask` (
   `nameprogress` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `accomplishtask`
---
-
-INSERT INTO `accomplishtask` (`id`, `user_id`, `progress_percentage`, `car_id`, `mechanic_id`, `progressing`, `progressingpercentage`, `nameprogress`) VALUES
-(124, 116, 46.00, 24, 5, 'Valve Train, Timing Chain or Belt', '100%', 'Mechanical Issues'),
-(125, 116, 46.00, 24, 5, 'Oil Leaks, Oil Consumptionl, Oil Contamination', '100%', 'Oil'),
-(126, 116, 53.00, 24, 5, 'Air Filter, Fuel Injection', '67%', 'Fuel and Air intake System');
-
 -- --------------------------------------------------------
 
 --
@@ -63,13 +54,6 @@ CREATE TABLE `approvals` (
   `mechanic_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `approvals`
---
-
-INSERT INTO `approvals` (`id`, `user_id`, `car_id`, `status`, `reason`, `timestamp`, `mechanic_id`) VALUES
-(163, 116, 24, 1, '', '2024-10-15 09:49:55', 5);
-
 -- --------------------------------------------------------
 
 --
@@ -82,13 +66,6 @@ CREATE TABLE `assignments` (
   `car_id` int(11) DEFAULT NULL,
   `mechanic_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `assignments`
---
-
-INSERT INTO `assignments` (`assignment_id`, `user_id`, `car_id`, `mechanic_id`) VALUES
-(795, 116, 24, 5);
 
 -- --------------------------------------------------------
 
@@ -135,15 +112,6 @@ CREATE TABLE `bookings` (
   `companyname` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bookings`
---
-
-INSERT INTO `bookings` (`id`, `user_id`, `date`, `created_at`, `booking_date`, `car_id`, `companyname`) VALUES
-(28, 110, '2024-10-14', '2024-10-13 05:53:58', 1, 22, 'Honda Motorcycle'),
-(29, 115, '2024-10-15', '2024-10-14 22:17:37', 1, 23, 'Hikaru Autoshop'),
-(30, 116, '2024-10-16', '2024-10-15 09:49:02', 1, 24, 'Honda Motorcycle');
-
 -- --------------------------------------------------------
 
 --
@@ -165,15 +133,6 @@ CREATE TABLE `car` (
   `color` varchar(50) DEFAULT NULL,
   `companyid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `car`
---
-
-INSERT INTO `car` (`car_id`, `plateno`, `carmodel`, `year`, `bodyno`, `enginecc`, `gas`, `user_id`, `created_at`, `manufacturer_id`, `added_at`, `color`, `companyid`) VALUES
-(22, '23e2', 'TMX Supremo 150', 2024, 'qr3q1r3', 150, 'Premium', 110, '2024-10-13 05:53:22', 9, '2024-10-13 05:53:22', 'Red', 2),
-(23, '23e23d', 'Raider R150', 2020, 'c3c', 150, 'Regular', 115, '2024-10-14 22:16:30', 10, '2024-10-14 22:16:30', 'Red', 1),
-(24, '12e12e', 'Skydrive Sport', 2020, '21e1', 170, 'Regular', 116, '2024-10-15 09:48:22', 10, '2024-10-15 09:48:22', 'red', 2);
 
 -- --------------------------------------------------------
 
@@ -240,19 +199,30 @@ CREATE TABLE `diagnose` (
 --
 
 INSERT INTO `diagnose` (`repairid`, `plateno`, `problem`, `diagnosis`, `remarks`, `mechanic_id`, `user_id`) VALUES
-(834, '24', 'Engine Overhaul', 'Valve Train', NULL, 5, 116),
-(835, '24', 'Engine Overhaul', 'Timing Chain or Belt', NULL, 5, 116),
-(836, '24', 'Engine Low Power', 'Fuel Injection', NULL, 5, 116),
-(837, '24', 'Engine Low Power', 'Air Filter', NULL, 5, 116),
-(838, '24', 'Engine Low Power', 'Throttle Body', NULL, 5, 116),
-(839, '24', 'Battery', 'Battery Age', NULL, 5, 116),
-(840, '24', 'Battery', 'Overcharging or Undercharging', NULL, 5, 116),
-(841, '24', 'Battery', 'Corrosion', NULL, 5, 116),
-(842, '24', 'Light', 'Faulty Bulbs', NULL, 5, 116),
-(843, '24', 'Light', 'Inspect fuses', NULL, 5, 116),
-(844, '24', 'Oil', 'Oil Leaks', NULL, 5, 116),
-(845, '24', 'Oil', 'Oil Consumptionl', NULL, 5, 116),
-(846, '24', 'Oil', 'Oil Contamination', NULL, 5, 116);
+(847, '25', 'Engine Overhaul', 'Piston and Piston Rings', NULL, 7, 116),
+(848, '25', 'Engine Overhaul', 'Valve Train', NULL, 7, 116),
+(849, '25', 'Engine Low Power', 'Fuel Injection', NULL, 7, 116),
+(850, '25', 'Engine Low Power', 'Air Filter', NULL, 7, 116),
+(851, '25', 'Engine Low Power', 'Throttle Body', NULL, 7, 116),
+(852, '25', 'Electrical Problem', 'Coolant Leaks', NULL, 7, 116),
+(853, '25', 'Electrical Problem', 'Oil Leaks', NULL, 7, 116),
+(854, '25', 'Battery', 'Battery Age', NULL, 7, 116),
+(855, '25', 'Battery', 'Overcharging or Undercharging', NULL, 7, 116);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history`
+--
+
+CREATE TABLE `history` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `car_id` int(11) DEFAULT NULL,
+  `mechanic_id` int(11) DEFAULT NULL,
+  `diagnosis` varchar(255) DEFAULT NULL,
+  `progress_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -350,21 +320,6 @@ CREATE TABLE `repairrecord` (
   `mechanic_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `repairrecord`
---
-
-INSERT INTO `repairrecord` (`id`, `category`, `checkbox_value`, `quantity`, `user_id`, `car_id`, `other_product`, `mechanic_id`) VALUES
-(209, 'Mechanical Issues', 'Cylinder Liner', 3, 116, 24, '', 5),
-(210, 'Mechanical Issues', 'Piston Rings', 2, 116, 24, '', 5),
-(211, 'Mechanical Issues', 'Connecting Rod', 2, 116, 24, '', 5),
-(212, 'Mechanical Issues', 'Valves', 2, 116, 24, '', 5),
-(213, 'Mechanical Issues', 'Timing Chain/Built', 2, 116, 24, '', 5),
-(214, 'Mechanical Issues', 'Valve Springs', 2, 116, 24, '', 5),
-(215, 'Battery', 'Battery Load Test', 0, 116, 24, '', 5),
-(216, 'Battery', 'Charging System Inspection', 2, 116, 24, '', 5),
-(217, 'Battery', 'Battery Tender or Trickle Charger', 2, 116, 24, '', 5);
-
 -- --------------------------------------------------------
 
 --
@@ -405,13 +360,6 @@ CREATE TABLE `service` (
   `car_id` int(11) DEFAULT NULL,
   `companyid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `service`
---
-
-INSERT INTO `service` (`serviceno`, `eo`, `elp`, `ep`, `battery`, `light`, `oil`, `water`, `brake`, `air`, `gas`, `tire`, `user_id`, `car_id`, `companyid`) VALUES
-(220, '1', '2', NULL, '2', '2', '2', '3', '1', '1', '1', '1', 116, 24, 2);
 
 -- --------------------------------------------------------
 
@@ -457,7 +405,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `firstname`, `middlename`, `lastname`, `homeaddress`, `email`, `password`, `image`, `barangay`, `province`, `municipality`, `zipcode`, `role`, `companyid`) VALUES
-(116, 'rexey', 'rexey', 'rexey', 'rexey', 'Brgy. Toril Road', 'rexey@gmail.com', '9a648d8f972747af7a48f5d69a0c42f1', 'rimuru tempest.jpg', 'talomo', 'Davao Region', 'Davao city', '8000', 'user', 2);
+(116, 'rexey', 'rexey', 'rexey', 'rexey', 'Brgy. Toril Road', 'rexey@gmail.com', '9a648d8f972747af7a48f5d69a0c42f1', 'rimuru tempest.jpg', 'talomo', 'Davao Region', 'Davao city', '8000', 'user', 1);
 
 --
 -- Indexes for dumped tables
@@ -516,6 +464,15 @@ ALTER TABLE `car_model`
 --
 ALTER TABLE `diagnose`
   ADD PRIMARY KEY (`repairid`);
+
+--
+-- Indexes for table `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `car_id` (`car_id`),
+  ADD KEY `mechanic_id` (`mechanic_id`);
 
 --
 -- Indexes for table `manufacturer`
@@ -583,19 +540,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `accomplishtask`
 --
 ALTER TABLE `accomplishtask`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `approvals`
 --
 ALTER TABLE `approvals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `assignments`
 --
 ALTER TABLE `assignments`
-  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=796;
+  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=797;
 
 --
 -- AUTO_INCREMENT for table `autoshop`
@@ -607,13 +564,13 @@ ALTER TABLE `autoshop`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `car`
 --
 ALTER TABLE `car`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `car_model`
@@ -625,7 +582,13 @@ ALTER TABLE `car_model`
 -- AUTO_INCREMENT for table `diagnose`
 --
 ALTER TABLE `diagnose`
-  MODIFY `repairid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=847;
+  MODIFY `repairid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=856;
+
+--
+-- AUTO_INCREMENT for table `history`
+--
+ALTER TABLE `history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `manufacturer`
@@ -655,25 +618,25 @@ ALTER TABLE `repairrecord`
 -- AUTO_INCREMENT for table `salesreport`
 --
 ALTER TABLE `salesreport`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `serviceno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 
 --
 -- AUTO_INCREMENT for table `servicebilling`
 --
 ALTER TABLE `servicebilling`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- Constraints for dumped tables
@@ -684,6 +647,14 @@ ALTER TABLE `user`
 --
 ALTER TABLE `car_model`
   ADD CONSTRAINT `car_model_ibfk_1` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`id`);
+
+--
+-- Constraints for table `history`
+--
+ALTER TABLE `history`
+  ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `history_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `car` (`car_id`),
+  ADD CONSTRAINT `history_ibfk_3` FOREIGN KEY (`mechanic_id`) REFERENCES `mechanic` (`mechanic_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

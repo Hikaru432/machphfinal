@@ -482,7 +482,10 @@ if (isset($_GET['mechanic_id']) && isset($_GET['car_id'])) {
         const form = document.querySelector("form");
         form.addEventListener("submit", function (event) {
             // Check if Not Approve is selected and a reason is chosen
-            if (notApproveRadio.checked && notApproveReasonDropdown.value !== "") {
+            if (notApproveRadio.checked && notApproveReasonDropdown.value === "") {
+                alert("Please select a reason for not approving.");
+                event.preventDefault(); // Prevent form submission if reason is not selected
+            } else if (notApproveRadio.checked) {
                 // Add a hidden input field to store the selected reason
                 const hiddenInput = document.createElement("input");
                 hiddenInput.type = "hidden";
