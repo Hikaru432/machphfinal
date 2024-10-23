@@ -280,14 +280,14 @@ function displayProblemParts($problem_parts_mapping, $user_id, $car_id)
 
 <nav class="navbar navbar-expand-lg bg-black">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" href="#">Mechanic</a>
+        <a class="navbar-brand text-white" href="admin.php">Mechanic</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon text-white"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="homemechanic.php">Home</a>
+                    <a class="nav-link active text-white" aria-current="page" href="admin.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="#">Notifications<span id="notification-badge" class="badge bg-danger"></span></a>
@@ -310,13 +310,14 @@ function displayProblemParts($problem_parts_mapping, $user_id, $car_id)
 
     <!-- For profile -->
     <ul class="flex justify-normal items-center mt-8" id="container">
-        <li>
-            <?php if(empty($user_image)): ?>
-                <img src="images/default-avatar.png" class="w-20 h-20 rounded-full">
-            <?php else: ?>
-                <img src="uploaded_img/<?php echo $user_image; ?>" class="w-20 h-20 rounded-full">
-            <?php endif; ?>
-        </li>
+    <li>
+        <?php if (empty($user_image)): ?>
+            <img src="images/default-avatar.png" class="w-20 h-20 rounded-full">
+        <?php else: ?>
+            <!-- Use image.php to serve the BLOB image -->
+            <img src="image.php?id=<?php echo $user_id; ?>" class="w-20 h-20 rounded-full">
+        <?php endif; ?>
+    </li>
             <li class="px-4"><p class="mb-2 font-medium"><strong>User Name</strong>: <?php echo '<span class="font-normal">'.$user_name.'</span>'; ?></p></li>
             <li class="px-4"><p class="mb-2 font-medium"><strong>Manufacturer</strong>: <?php echo '<span class="font-normal">'.$manuname.'</span>'; ?></p></li>
             <li class="px-4"><p class="mb-2 font-medium"><strong>Car Model</strong>: <?php echo '<span class="font-normal">'.$carmodel.'</span>'; ?></p></li>

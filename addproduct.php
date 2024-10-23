@@ -8,7 +8,7 @@ if(!isset($_SESSION['companyid'])){
  } 
 
  $companyid = $_SESSION['companyid'];
- echo "Company ID: " . $companyid; 
+//  echo "Company ID: " . $companyid; 
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_product'])) {
@@ -24,69 +24,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_product'])) {
     $companyid = $_SESSION['companyid'];
 
     // Image upload handling
-    $targetDirectory = "uploaded_img/";
-    $targetFile = $targetDirectory . basename($_FILES["product_image"]["name"]);
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-    $uploadOk = 1;
-
-    // Check if image file is a actual image or fake image
-    if (isset($_POST["submit"])) {
-        $check = getimagesize($_FILES["product_image"]["tmp_name"]);
-        if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
-        }
-    }
-
-    // Check if file already exists
-    if (file_exists($targetFile)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
-
-    // Check file size
-    if ($_FILES["product_image"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-
-    // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif") {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFile)) {
-            echo "The file " . basename($_FILES["product_image"]["name"]) . " has been uploaded.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    }
+    $image = $_FILES['product_image']['tmp_name'];
+    $imageData = addslashes(file_get_contents($image)); // Read the image as binary data
 
     // Calculate profit
     $profit = $sellingPrice - $originalPrice;
 
     // Insert into database
     $query = "INSERT INTO products (barcode, item_name, category, date_arrival, selling_price, original_price, profit, product_image, quantity, system, companyid) 
-              VALUES ('$barcode', '$itemName', '$category', '$dateArrival', '$sellingPrice', '$originalPrice', '$profit', '$targetFile', '$quantity', '$system', '$companyid')";
+              VALUES ('$barcode', '$itemName', '$category', '$dateArrival', '$sellingPrice', '$originalPrice', '$profit', '$imageData', '$quantity', '$system', '$companyid')";
     $result = mysqli_query($conn, $query);
     if ($result) {
         // Product added successfully
-        // You may reload the page or show a success message
         header('Location: addproduct.php');
         exit();
     } else {
         // Error occurred while adding product
-        // You may show an error message
         $error_message = "Failed to add product.";
     }
 }
@@ -273,9 +226,9 @@ function quantityStatusColor($quantity) {
                                 echo "In Stock";
                             }
                             echo "</td>";
-                            echo "<td><img src='{$row['product_image']}' width='50' height='50'></td>";
+                            echo "<td><img src='image_product.php?id={$row['id']}' width='50' height='50'></td>";
                             echo "<td>";
-                            echo "<button type='button' class='btn btn-primary' onclick='openEditModal({$row['id']})'>Edit</button>";
+                            echo "<button type='button' class='btn btn-primary edit-button' data-product-id='{$row['id']}'>Edit</button>";  
                             echo "<button type='button' class='btn btn-danger' onclick='confirmDelete({$row['id']})'>Delete</button>";
                             echo "</td>";
                             echo "</tr>";
@@ -396,5 +349,10 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

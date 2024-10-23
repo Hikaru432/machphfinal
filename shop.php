@@ -182,7 +182,8 @@ if (isset($_GET['system']) && !empty($_GET['system'])) {
         <?php while($row = mysqli_fetch_assoc($result)): ?>
             <div class="col-md-3 mb-4">
                 <div class="card">
-                    <img src="<?php echo $row['product_image']; ?>" class="card-img-top" alt="Product Image">
+                    <!-- Update the image source to point to the image_product.php -->
+                    <img src="image_product.php?id=<?php echo $row['id']; ?>" class="card-img-top" alt="Product Image">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $row['item_name']; ?></h5>
                         <p class="card-text"><strong>Price:</strong> <span style="padding: 4px;">₱</span><?php echo $row['selling_price']; ?></p>
@@ -206,7 +207,6 @@ if (isset($_GET['system']) && !empty($_GET['system'])) {
         <?php endwhile; ?>
     </div>
 </div>
-
 
 <!-- Product details modals -->
 <?php mysqli_data_seek($result, 0); // Reset result pointer to the beginning ?>

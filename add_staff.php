@@ -3,7 +3,7 @@ session_start();
 include 'config.php';
 
 $companyid = $_SESSION['companyid'];
-echo "Company ID: " . $companyid; 
+// echo "Company ID: " . $companyid; 
 
 if(!isset($_SESSION['companyid'])){
    header('location:clogin.php');

@@ -236,12 +236,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    <section class="carprofile-section-1">
         <div class="container-car-profile">
             <div class="car-profile">
-                <?php
-                    if ($fetch['image'] == '') {
-                        echo '<img src="images/default-avatar.png">';
-                    } else {
-                        echo '<img src="uploaded_img/' . $fetch['image'] . '">';
-                    }
+            <?php
+                if (empty($fetch['image'])) {
+                    echo '<img src="images/default-avatar.png" alt="Default Avatar">';
+                } else {
+                    // Display the BLOB image using image.php script
+                    echo '<img src="image.php?id=' . $fetch['id'] . '" alt="User Image">';
+                }
                 ?>
                 <h3><?php echo $fetch['name']; ?></h3>
                 <h3><?php echo isset($car_data['name']) ? $car_data['name'] : ''; ?></h3>

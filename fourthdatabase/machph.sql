@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 12:01 AM
+-- Generation Time: Oct 24, 2024 at 12:19 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -207,7 +207,15 @@ INSERT INTO `diagnose` (`repairid`, `plateno`, `problem`, `diagnosis`, `remarks`
 (852, '25', 'Electrical Problem', 'Coolant Leaks', NULL, 7, 116),
 (853, '25', 'Electrical Problem', 'Oil Leaks', NULL, 7, 116),
 (854, '25', 'Battery', 'Battery Age', NULL, 7, 116),
-(855, '25', 'Battery', 'Overcharging or Undercharging', NULL, 7, 116);
+(855, '25', 'Battery', 'Overcharging or Undercharging', NULL, 7, 116),
+(856, '27', 'Engine Overhaul', 'Piston and Piston Rings', NULL, 5, 122),
+(857, '27', 'Engine Overhaul', 'Valve Train', NULL, 5, 122),
+(858, '27', 'Engine Low Power', 'Fuel Injection', NULL, 5, 122),
+(859, '27', 'Engine Low Power', 'Air Filter', NULL, 5, 122),
+(860, '27', 'Battery', 'Battery Age', NULL, 5, 122),
+(861, '27', 'Battery', 'Overcharging or Undercharging', NULL, 5, 122),
+(862, '27', 'Light', 'Faulty Bulbs', NULL, 5, 122),
+(863, '27', 'Light', 'Check wirings', NULL, 5, 122);
 
 -- --------------------------------------------------------
 
@@ -288,20 +296,11 @@ CREATE TABLE `products` (
   `selling_price` decimal(10,2) DEFAULT NULL,
   `original_price` decimal(10,2) DEFAULT NULL,
   `profit` decimal(10,2) DEFAULT NULL,
-  `product_image` varchar(255) DEFAULT NULL,
+  `product_image` longblob DEFAULT NULL,
   `quantity` int(11) NOT NULL DEFAULT 0,
   `system` enum('Engine system','Maintenance system') DEFAULT NULL,
   `companyid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`id`, `barcode`, `item_name`, `category`, `date_arrival`, `selling_price`, `original_price`, `profit`, `product_image`, `quantity`, `system`, `companyid`) VALUES
-(20, '23232', 'Battery', 'It works based on the electrochemical reaction between lead and sulfuric acid.', '2024-05-22', 2421.00, 2000.00, 421.00, 'uploaded_img/battery.jpg', 11, 'Maintenance system', 1),
-(21, '32423', 'Piston', ' acts as a movable end of the combustion chamber', '2024-05-20', 2232.00, 321.00, 1911.00, 'uploaded_img/piston1.jpg', 7, 'Engine system', 1),
-(22, '231', 'Head light', 'efwefwef', '2024-05-30', 1232.00, 100.00, 1132.00, 'uploaded_img/Headlight-H21-E.jpg', 2, 'Maintenance system', 2);
 
 -- --------------------------------------------------------
 
@@ -391,7 +390,7 @@ CREATE TABLE `user` (
   `homeaddress` varchar(255) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `image` varchar(100) NOT NULL,
+  `image` blob DEFAULT NULL,
   `barangay` varchar(255) DEFAULT NULL,
   `province` varchar(255) DEFAULT NULL,
   `municipality` varchar(255) DEFAULT NULL,
@@ -399,13 +398,6 @@ CREATE TABLE `user` (
   `role` varchar(255) NOT NULL,
   `companyid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `name`, `firstname`, `middlename`, `lastname`, `homeaddress`, `email`, `password`, `image`, `barangay`, `province`, `municipality`, `zipcode`, `role`, `companyid`) VALUES
-(116, 'rexey', 'rexey', 'rexey', 'rexey', 'Brgy. Toril Road', 'rexey@gmail.com', '9a648d8f972747af7a48f5d69a0c42f1', 'rimuru tempest.jpg', 'talomo', 'Davao Region', 'Davao city', '8000', 'user', 1);
 
 --
 -- Indexes for dumped tables
@@ -546,13 +538,13 @@ ALTER TABLE `accomplishtask`
 -- AUTO_INCREMENT for table `approvals`
 --
 ALTER TABLE `approvals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `assignments`
 --
 ALTER TABLE `assignments`
-  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=797;
+  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=798;
 
 --
 -- AUTO_INCREMENT for table `autoshop`
@@ -564,13 +556,13 @@ ALTER TABLE `autoshop`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `car`
 --
 ALTER TABLE `car`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `car_model`
@@ -582,7 +574,7 @@ ALTER TABLE `car_model`
 -- AUTO_INCREMENT for table `diagnose`
 --
 ALTER TABLE `diagnose`
-  MODIFY `repairid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=856;
+  MODIFY `repairid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=864;
 
 --
 -- AUTO_INCREMENT for table `history`
@@ -606,7 +598,7 @@ ALTER TABLE `mechanic`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `repairrecord`
@@ -624,7 +616,7 @@ ALTER TABLE `salesreport`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
+  MODIFY `serviceno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
 
 --
 -- AUTO_INCREMENT for table `servicebilling`
@@ -636,7 +628,7 @@ ALTER TABLE `servicebilling`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- Constraints for dumped tables

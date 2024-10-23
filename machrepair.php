@@ -97,7 +97,7 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="homemechanic.php">Home</a>
+                    <a class="nav-link active text-white" aria-current="page" href="admin.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="#">Notifications<span id="notification-badge" class="badge bg-danger"></span></a>
@@ -123,8 +123,9 @@ if ($user_result && mysqli_num_rows($user_result) > 0) {
         <ul class="flex justify-normal items-center" id="container">
         <li>
             <?php
-            if(isset($user_info['image']) && $user_info['image'] != ''){
-                echo '<img src="uploaded_img/' . $user_info['image'] . '" class="w-20 h-20 rounded-full">';
+            if (isset($user_info['image']) && !empty($user_info['image'])) {
+                // Use image.php to serve the BLOB image
+                echo '<img src="image.php?id=' . $user_info['id'] . '" class="w-20 h-20 rounded-full">';
             } else {
                 echo '<img src="images/default-avatar.png" class="w-20 h-20 rounded-full">';
             }

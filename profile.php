@@ -3,7 +3,7 @@ session_start();
 
 // Redirect to login.php if user is not logged in
 if(!isset($_SESSION['user_id'])){
-   header('location:login.php');
+   header('location:index.php');
    exit();
 }
 
@@ -11,7 +11,7 @@ if(!isset($_SESSION['user_id'])){
 if(isset($_GET['logout'])){
    unset($_SESSION['user_id']);
    session_destroy();
-   header('location:login.php');
+   header('location:index.php');
    exit();
 }
 include 'config.php';
@@ -142,13 +142,16 @@ if(mysqli_num_rows($select) > 0){
 <div class="container-profile">
 
    <div class="profile">
-      <?php
-         if($fetch['image'] == ''){
-            echo '<img src="images/default-avatar.png">';
-         }else{
-            echo '<img src="uploaded_img/'.$fetch['image'].'">';
-         }
-      ?>
+   <?php
+        // Check if the image is stored in the database (as BLOB)
+        if(empty($fetch['image'])){
+            // If no image is found, display a default avatar
+            echo '<img src="images/default-avatar.png" alt="Default Avatar">';
+        } else {
+            // Display the BLOB image using image.php script
+            echo '<img src="image.php?id=' . $user_id . '" alt="User Image">';
+        }
+        ?>
        <h3><?php echo $fetch['name']; ?></h3>
       <a href="update_profile.php" class="btn">Update profile</a>
       </div>

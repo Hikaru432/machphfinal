@@ -83,14 +83,14 @@ if (isset($_GET['mechanic_id']) && isset($_GET['car_id'])) {
 
 <nav class="navbar navbar-expand-lg bg-black">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" href="#">Mechanic</a>
+        <a class="navbar-brand text-white" href="admin.php">Mechanic</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon text-white"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="homemechanic.php">Home</a>
+                    <a class="nav-link active text-white" aria-current="page" href="admin.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="#">Notifications<span id="notification-badge" class="badge bg-danger"></span></a>
@@ -119,10 +119,12 @@ if (isset($_GET['mechanic_id']) && isset($_GET['car_id'])) {
     <!-- For profile -->
     <ul class="flex justify-normal items-center " id="container">
     <li>
-        <?php
-        if(isset($user_data['image']) && $user_data['image'] != ''){
-            echo '<img src="uploaded_img/' . $user_data['image'] . '" class="w-20 h-20 rounded-full">';
+    <?php
+        if (isset($user_data['image']) && !empty($user_data['image'])) {
+            // Display the BLOB image using image.php script
+            echo '<img src="image.php?id=' . $user_data['id'] . '" class="w-20 h-20 rounded-full">';
         } else {
+            // Display the default avatar if no image is found
             echo '<img src="images/default-avatar.png" class="w-20 h-20 rounded-full">';
         }
         ?>
