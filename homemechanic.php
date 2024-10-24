@@ -33,6 +33,19 @@ $query_company = "SELECT * FROM autoshop WHERE companyid = $companyid";
 $result_company = mysqli_query($conn, $query_company);
 $autoshop = mysqli_fetch_assoc($result_company);
 
+// Greetings
+
+function getGreeting() {
+    $hour = date('H');
+    if ($hour < 12) {
+        return "Good Morning! Let's make today a great day.";
+    } elseif ($hour < 18) {
+        return "Good Afternoon! Hope you're having a productive day.";
+    } else {
+        return "Good Evening! Time to wrap up the day.";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +81,9 @@ $autoshop = mysqli_fetch_assoc($result_company);
         </div>
     </div>
 </nav>
-<h1>Welcome <?php echo $mechanic['firstname']; ?></h1>
+
+<h1 class="welcome-message">Welcome, <span class="mechanic-name"><?php echo isset($mechanic['firstname']) ? htmlspecialchars($mechanic['firstname']) : 'Guest'; ?></span>!</h1>
+<p class="greeting-message"><?php echo getGreeting(); ?></p>
 
 <div id="table-content-placeholder">
     <!-- Table content will be loaded here -->
@@ -122,6 +137,26 @@ $autoshop = mysqli_fetch_assoc($result_company);
         background-color: black;
     }
 
+    .welcome-message {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #007bff; /* Bootstrap primary color */
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .mechanic-name {
+        color: black; /* Contrast color for the name */
+    }
+
+    .greeting-message {
+        font-size: 1.2rem;
+        color: #666; /* A softer color for the greeting */
+        text-align: center;
+        margin-bottom: 20px;
+    }
 </style>
+
 </body>
 </html>

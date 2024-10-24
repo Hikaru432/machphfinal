@@ -49,14 +49,14 @@ if (!$result) {
 
 <nav class="navbar navbar-expand-lg bg-black">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" href="homemechanic.php">Mechanic</a>
+        <a class="navbar-brand text-white" href="admin.php">Mechanic</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon text-white"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="homemechanic.php">Home</a>
+                    <a class="nav-link active text-white" aria-current="page" href="admin.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="#">Notifications<span id="notification-badge" class="badge bg-danger"></span></a>
@@ -77,37 +77,51 @@ if (!$result) {
     </div>
 </nav>
 
-<h3 style="margin: 20px;">Job Available</h3>
-
+<div class="container my-4">
+    <h3 class="text-center fw-bold mb-4" style="font-size: 2.5rem; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);">
+        Job Available
+    </h3>
+    <p class="text-center text-muted" style="font-size: 1.2rem;">
+        Explore the latest job opportunities tailored for you.
+    </p>
+</div>
+<br>
 <!-- The table -->
-<div class="container">
+<div class="container my-4">
     <div class="row">
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card h-100 shadow-lg border-0">
                     <div class="card-body">
-                        <h3 class="card-title"><?php echo $row['name']; ?></h3>
-                        <h6 class="card-title"><?php echo $row['manuname']; ?></h6>
-                        <h6 class="card-subtitle mb-2 text-muted"><?php echo $row['carmodel']; ?></h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <!-- Name on the left -->
+                            <h3 class="card-title text-primary fw-bold mb-0"><?php echo htmlspecialchars($row['name']); ?></h3>
+                            <!-- Profile image on the right -->
+                            <img src="image.php?id=<?php echo htmlspecialchars($row['user_id']); ?>" alt="Profile Image" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                        </div>
+                        <h6 class="card-title text-secondary"><?php echo htmlspecialchars($row['manuname']); ?></h6>
+                        <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlspecialchars($row['carmodel']); ?></h6>
                         <p class="card-text">
                             <strong>Assigned Mechanic:</strong>
                             <span style="margin-left: 5px;">
                                 <?php 
                                     if ($row['jobrole'] && $row['firstname']) {
-                                        echo $row['firstname'] . ' - ' . $row['jobrole'];
+                                        echo htmlspecialchars($row['firstname']) . ' - ' . htmlspecialchars($row['jobrole']);
                                     } else {
-                                        echo 'Not Assigned';
+                                        echo '<span class="text-danger">Not Assigned</span>';
                                     }
                                 ?>
                             </span>
                         </p>
-                        <a href="machrepair.php?mechanic_id=<?php echo $mechanic_id; ?>&car_id=<?php echo $row['car_id']; ?>&user_id=<?php echo $row['user_id']; ?>" class="btn btn-primary">Repair</a>
+                        <a href="machrepair.php?mechanic_id=<?php echo $mechanic_id; ?>&car_id=<?php echo $row['car_id']; ?>&user_id=<?php echo $row['user_id']; ?>" class="btn btn-primary w-100 mt-3">Repair</a>
                     </div>
                 </div>
             </div>
         <?php } ?>
     </div>
 </div>
+
+
 
 </body>
 </html>

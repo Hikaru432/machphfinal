@@ -82,13 +82,23 @@ $mechanic_result = mysqli_query($conn, $mechanic_query);
     </ul>
 </div>
 
-<h1>Welcome <?php echo isset($company_data['companyname']) ? $company_data['companyname'] : ''; ?></h1>
-
-<div style="margin-top: 80px; margin-left: 80px;">
-    <a href="homemanager.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px; margin-right: 10px;">Service Executive</a>
-    <a href="add_staff.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px; margin-right: 10px;">Add Staff</a>
-    <a href="addproduct.php?companyid=<?php echo $companyid; ?>" class="btn-primary" style="display: inline-block; width: 150px; height: 40px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; line-height: 40px;">Add Product</a>                    
+<div class="container-fluid welcome-container d-flex align-items-center justify-content-start vh-100 bg-light" style="margin-top: -120px;">
+    <div class=" p-5 text-center">
+        <h1 class="display-4 font-weight-bold mb-3">
+            Welcome, <?php echo isset($company_data['companyname']) ? $company_data['companyname'] : 'Valued Partner'; ?>!
+        </h1>
+       
+<br>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="homemanager.php?companyid=<?php echo $companyid; ?>" class="btn btn-primary btn-lg px-5 py-3">Service Executive</a>
+            <a href="add_staff.php?companyid=<?php echo $companyid; ?>" class="btn btn-secondary btn-lg px-5 py-3">Add Staff</a>
+            <a href="addproduct.php?companyid=<?php echo $companyid; ?>" class="btn btn-success btn-lg px-5 py-3">Add Product</a>
+        </div>
+    </div>
 </div>
+
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

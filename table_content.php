@@ -33,12 +33,12 @@ if (!$car_select) {
 }
 ?>
 
-<div class="container">
-    <h2>Car Users</h2>
+<div class="container mt-4">
+    <h2 class="text-center">Car Users</h2>
 
-    <div class="container">
-        <table id="carTable" class="table">
-            <thead>
+    <div class="table-responsive">
+        <table id="carTable" class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
                 <tr>
                     <th>User Name</th>
                     <th>Car Name</th>
@@ -58,17 +58,17 @@ if (!$car_select) {
                 $user = mysqli_fetch_assoc($user_result);
                 ?>
 
-                    <tr data-user-id="<?php echo (int)$user_id; ?>" data-car-id="<?php echo (int)$row['car_id']; ?>">
-                    <td class="username-cell"><?php echo isset($user['name']) ? $user['name'] : ''; ?></td>
-                    <td><?php echo isset($row['manufacturer_name']) ? $row['manufacturer_name'] : ''; ?></td>
-                    <td><?php echo isset($row['plateno']) ? $row['plateno'] : ''; ?></td>
-                    <td><?php echo isset($row['assigned_mechanic']) ? $row['assigned_mechanic'] : 'Not Assigned'; ?></td>
-                    <td><a href="machvalidate.php?mechanic_id=<?php echo $mechanic_id; ?>&car_id=<?php echo $row['car_id']; ?>&user_id=<?php echo $user_id; ?>">Parts</a></td>
-                    <td><a href="machidentify.php?mechanic_id=<?php echo (int)$mechanic_id; ?>&car_id=<?php echo (int)$row['car_id']; ?>&user_id=<?php echo $user_id; ?>" class="btn btn-primary">View Profile</a></td>
+                <tr data-user-id="<?php echo (int)$user_id; ?>" data-car-id="<?php echo (int)$row['car_id']; ?>">
+                    <td class="username-cell"><?php echo isset($user['name']) ? htmlspecialchars($user['name']) : ''; ?></td>
+                    <td><?php echo isset($row['manufacturer_name']) ? htmlspecialchars($row['manufacturer_name']) : ''; ?></td>
+                    <td><?php echo isset($row['plateno']) ? htmlspecialchars($row['plateno']) : ''; ?></td>
+                    <td><?php echo isset($row['assigned_mechanic']) ? htmlspecialchars($row['assigned_mechanic']) : 'Not Assigned'; ?></td>
+                    <td><a href="machvalidate.php?mechanic_id=<?php echo $mechanic_id; ?>&car_id=<?php echo $row['car_id']; ?>&user_id=<?php echo $user_id; ?>" class="btn btn-info btn-sm">Parts</a></td>
+                    <td><a href="machidentify.php?mechanic_id=<?php echo (int)$mechanic_id; ?>&car_id=<?php echo (int)$row['car_id']; ?>&user_id=<?php echo $user_id; ?>" class="btn btn-primary btn-sm">View Profile</a></td>
                 </tr>
             <?php endwhile; ?>
             </tbody>
-        </table>    
+        </table>
     </div>
 </div>
 
@@ -76,7 +76,26 @@ if (!$car_select) {
     .invalid-label {
         color: red;
     }
+
     .highlighted {
         background-color: #ffff66;
+    }
+
+    /* Additional styles for table enhancements */
+    table {
+        width: 100%; /* Ensure full width */
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa; /* Light gray on hover */
+    }
+
+    .btn-info {
+        background-color: #17a2b8; /* Bootstrap info color */
+        border: none;
+    }
+
+    .btn-info:hover {
+        background-color: #138496; /* Darker shade on hover */
     }
 </style>
