@@ -224,7 +224,7 @@ if (isset($_GET['system']) && !empty($_GET['system'])) {
                     <!-- Product details -->
                     <div class="row">
                         <div class="col-md-6">
-                            <img src="<?php echo $row['product_image']; ?>" class="img-fluid" alt="Product Image">
+                            <img src="image_product.php?id=<?php echo $row['id']; ?>" class="img-fluid" alt="Product Image">
                         </div>
                         <div class="col-md-6">
                             <p><strong>Item Name:</strong> <?php echo $row['item_name']; ?></p>

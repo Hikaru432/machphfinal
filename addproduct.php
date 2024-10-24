@@ -300,8 +300,8 @@ if ($result && mysqli_num_rows($result) > 0) {
         echo "<input type='number' class='form-control' id='edit_quantity' name='edit_quantity' value='{$row['quantity']}'>";
         echo "</div>";
         echo "<div class='mb-3'>";
-        echo "<label for='edit_product_image' class='form-label'>Product Image:</label>";
-        echo "<input type='file' class='form-control' id='edit_product_image' name='edit_product_image' value='{$row['product_image']}'>";
+        echo "<label for='edit_product_image' class='form-label'>Upload New Product Image (optional):</label>";
+        echo "<input type='file' class='form-control' id='edit_product_image' name='edit_product_image'>";
         echo "</div>";
         echo "<input type='hidden' name='edit_product' value='1'>";
         echo "<input type='hidden' name='product_id' value='" . $row['id'] . "'>";
